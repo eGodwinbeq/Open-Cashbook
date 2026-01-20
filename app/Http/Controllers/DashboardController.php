@@ -18,8 +18,8 @@ class DashboardController extends Controller
 
         $chapters = $user->chapters;
 
-        // Select chapter: from query param, or session, or default to first
-        $chapterId = $request->query('chapter_id') ?? session('active_chapter_id');
+        // Select chapter: from session, or default to first
+        $chapterId = session('active_chapter_id');
         $activeChapter = $chapterId ? $chapters->find($chapterId) : $chapters->first();
 
         if ($activeChapter) {
