@@ -9,6 +9,13 @@
             <p class="text-gray-500 text-sm">Sign in to your account to continue</p>
         </div>
 
+        <!-- Session Status -->
+        @if (session('status'))
+            <div class="mb-4 font-medium text-sm text-green-600">
+                {{ session('status') }}
+            </div>
+        @endif
+
         <form method="POST" action="{{ route('login') }}" class="space-y-5">
             @csrf
 
@@ -18,12 +25,13 @@
                 <div class="relative">
                     <i class="ti ti-mail absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
                     <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
+                        autocomplete="username"
                         class="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary/50 transition-all font-medium"
                         placeholder="name@company.com">
                 </div>
-                @error('email')
-                    <p class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</p>
-                @enderror
+                @if ($errors->has('email'))
+                    <p class="text-red-500 text-xs mt-1 font-semibold">{{ $errors->first('email') }}</p>
+                @endif
             </div>
 
             <div>
@@ -36,19 +44,20 @@
                 </div>
                 <div class="relative">
                     <i class="ti ti-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input id="password" type="password" name="password" required
+                    <input id="password" type="password" name="password" required autocomplete="current-password"
                         class="w-full pl-11 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary/50 transition-all font-medium"
                         placeholder="••••••••">
                 </div>
-                @error('password')
-                    <p class="text-red-500 text-xs mt-1 font-semibold">{{ $message }}</p>
-                @enderror
+                @if ($errors->has('password'))
+                    <p class="text-red-500 text-xs mt-1 font-semibold">{{ $errors->first('password') }}</p>
+                @endif
             </div>
 
             <div class="flex items-center">
-                <input id="remember" name="remember" type="checkbox"
+                <input id="remember_me" name="remember" type="checkbox"
                     class="size-4 rounded border-gray-300 text-primary focus:ring-primary/50">
-                <label for="remember" class="ml-2 block text-sm font-medium text-gray-500">Remember me for 30 days</label>
+                <label for="remember_me" class="ml-2 block text-sm font-medium text-gray-500">Remember me for 30
+                    days</label>
             </div>
 
             <button type="submit"

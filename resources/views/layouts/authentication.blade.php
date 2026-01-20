@@ -41,7 +41,7 @@
 </head>
 
 <body
-    class="bg-background-light dark:bg-background-dark font-display text-[#111618] dark:text-gray-100 min-h-screen flex items-center justify-center p-4">
+    class="bg-background-light font-display text-[#111618] min-h-screen flex items-center justify-center p-4">
 
     <div class="w-full max-w-md">
         <div class="flex items-center justify-center gap-3 mb-8">
