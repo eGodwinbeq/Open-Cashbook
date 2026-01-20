@@ -96,6 +96,10 @@
             <div
                 class="px-4 md:px-6 py-4 md:py-5 border-b border-[#eaeff0] dark:border-gray-700 flex items-center justify-between">
                 <h3 class="font-bold text-base md:text-lg">Recent Transactions</h3>
+                <a href="{{ route('transactions.index') }}" class="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                    <span>View All</span>
+                    <i class="ti ti-chevron-right"></i>
+                </a>
             </div>
 
             @if($transactions->isEmpty())
@@ -136,6 +140,32 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Mobile List View -->
+                <div class="md:hidden divide-y divide-gray-100 dark:divide-gray-700/50">
+                    @foreach($transactions as $transaction)
+                        <div class="p-4 flex items-center justify-between">
+                            <div class="flex flex-col gap-1 min-w-0">
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                    {{ \Carbon\Carbon::parse($transaction->date)->format('M d') }}
+                                </p>
+                                <p class="font-bold text-sm truncate">{{ $transaction->description }}</p>
+                                <span class="w-fit px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest {{ $transaction->type == 'in' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
+                                    {{ $transaction->category ?? 'General' }}
+                                </span>
+                            </div>
+                            <p class="font-black text-base {{ $transaction->type == 'in' ? 'text-success-muted' : 'text-danger-muted' }}">
+                                {{ $transaction->type == 'in' ? '+' : '-' }}${{ number_format($transaction->amount, 2) }}
+                            </p>
+                        </div>
+                    @endforeach
+                    <div class="p-4">
+                        <a href="{{ route('transactions.index') }}" class="w-full flex items-center justify-center gap-2 py-3 bg-gray-50 dark:bg-gray-800 text-primary font-bold rounded-xl text-sm">
+                            <span>View All Transactions</span>
+                            <i class="ti ti-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
 
                 <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800/30">

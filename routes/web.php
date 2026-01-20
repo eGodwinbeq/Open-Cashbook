@@ -12,6 +12,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('/chapters', [ChapterController::class, 'store'])->name('chapters.store');
     Route::post('/chapters/{chapter}/select', [ChapterController::class, 'select'])->name('chapters.select');
     Route::delete('/chapters/{chapter}', [ChapterController::class, 'destroy'])->name('chapters.destroy');

@@ -130,8 +130,8 @@
                                 class="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover/chapter:opacity-100 transition-opacity">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit"
-                                    onclick="return confirm('Are you sure you want to delete this chapter? All transactions will be hidden.')"
+                                <button type="button"
+                                    onclick="confirmDelete('{{ $chapter->name }}', '{{ route('chapters.destroy', $chapter) }}')"
                                     class="p-1.5 text-gray-400 hover:text-red-500 transition-colors">
                                     <i class="ti ti-trash text-sm"></i>
                                 </button>
@@ -264,6 +264,36 @@
         </div>
     </div>
 
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="modal">
+        <div
+            class="modal-content bg-white dark:bg-[#25282c] rounded-2xl shadow-2xl w-full max-w-md border border-gray-200 dark:border-gray-700">
+            <form id="deleteConfirmForm" method="POST">
+                @csrf
+                @method('DELETE')
+                <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-red-500">Confirm Deletion</h3>
+                    <button type="button" onclick="closeModal('deleteConfirmModal')"
+                        class="text-gray-400 hover:text-gray-600">
+                        <i class="ti ti-x text-xl"></i>
+                    </button>
+                </div>
+                <div class="p-6">
+                    <p class="text-gray-600 dark:text-gray-400 font-medium">Are you sure you want to delete <span
+                            id="deleteConfirmTitle" class="font-bold text-gray-900 dark:text-white"></span>? This action
+                        can be undone later as it's a soft-delete, but it will hide all associated data for now.</p>
+                </div>
+                <div class="p-6 border-t border-gray-100 dark:border-gray-700 flex gap-3">
+                    <button type="button" onclick="closeModal('deleteConfirmModal')"
+                        class="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-bold">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 px-6 py-3 bg-red-500 text-white rounded-xl font-bold shadow-lg shadow-red-500/20 hover:opacity-90">Yes,
+                        Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -273,13 +303,32 @@
         }
 
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
+            const modal = document.getElementById(modalId);
+            modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+
+            // Auto-focus and select amount/first input
+            setTimeout(() => {
+                const amountInput = modal.querySelector('input[name="amount"]');
+                if (amountInput) {
+                    amountInput.focus();
+                    amountInput.select();
+                } else {
+                    const firstInput = modal.querySelector('input:not([type="hidden"])');
+                    if (firstInput) firstInput.focus();
+                }
+            }, 100);
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
             document.body.style.overflow = '';
+        }
+
+        function confirmDelete(title, actionUrl) {
+            document.getElementById('deleteConfirmTitle').textContent = title;
+            document.getElementById('deleteConfirmForm').action = actionUrl;
+            openModal('deleteConfirmModal');
         }
 
         // Close modal when clicking outside
