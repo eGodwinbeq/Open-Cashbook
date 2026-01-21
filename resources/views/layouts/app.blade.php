@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'VaultFlow') }} - @yield('title', 'Cashbook Dashboard')</title>
+    <title>{{ config('app.name', 'Open Cashbook') }} - @yield('title', 'Cashbook Dashboard')</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
@@ -105,7 +105,7 @@
                         <div class="bg-primary rounded-lg p-2 text-white">
                             <i class="ti ti-wallet text-2xl"></i>
                         </div>
-                        <h1 class="text-xl font-extrabold tracking-tight">VaultFlow</h1>
+                        <h1 class="text-xl font-extrabold tracking-tight">Open Cashbook</h1>
                     </div>
                     <button class="md:hidden text-gray-500" onclick="toggleSidebar()">
                         <i class="ti ti-x text-2xl"></i>
@@ -178,7 +178,7 @@
                     <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
                         <i class="ti ti-menu-2 text-2xl"></i>
                     </button>
-                    <h2 class="text-lg md:text-xl font-bold tracking-tight">{{ $activeChapter->name ?? 'VaultFlow' }}
+                    <h2 class="text-lg md:text-xl font-bold tracking-tight">{{ $activeChapter->name ?? 'Open Cashbook' }}
                     </h2>
                     @if(isset($activeChapter))
                         <span
@@ -353,3 +353,4 @@
 </body>
 
 </html>
+

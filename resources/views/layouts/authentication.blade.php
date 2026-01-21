@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>{{ config('app.name', 'VaultFlow') }} - @yield('title', 'Authentication')</title>
+    <title>{{ config('app.name', 'Open Cashbook') }} - @yield('title', 'Authentication')</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
@@ -48,7 +48,7 @@
             <div class="bg-primary rounded-lg p-2 text-white">
                 <i class="ti ti-wallet text-2xl"></i>
             </div>
-            <h1 class="text-2xl font-extrabold tracking-tight">VaultFlow</h1>
+            <h1 class="text-2xl font-extrabold tracking-tight">Open Cashbook</h1>
         </div>
 
         @yield('content')

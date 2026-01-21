@@ -6,7 +6,7 @@
     <div class="bg-white dark:bg-[#25282c] p-8 rounded-2xl shadow-xl border border-[#eaeff0] dark:border-gray-700">
         <div class="mb-8 text-center">
             <h2 class="text-2xl font-black tracking-tight mb-2">Create Account</h2>
-            <p class="text-gray-500 text-sm">Join VaultFlow to manage your finances</p>
+            <p class="text-gray-500 text-sm">Join Open Cashbook to manage your finances</p>
         </div>
 
         <form method="POST" action="{{ route('register') }}" class="space-y-5">
