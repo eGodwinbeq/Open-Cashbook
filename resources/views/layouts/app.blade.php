@@ -6,35 +6,14 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Open Cashbook') }} - @yield('title', 'Cashbook Dashboard')</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Styles -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#34748d",
-                        "background-light": "#f9fafb",
-                        "background-dark": "#1c1e22",
-                        "success-muted": "#4B8E65",
-                        "danger-muted": "#D64545"
-                    },
-                    fontFamily: {
-                        "display": ["Manrope", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                },
-            },
-        }
-    </script>
+
     <style>
         body {
             font-family: 'Manrope', sans-serif;
@@ -96,12 +75,12 @@
                 right: 0;
                 z-index: 20;
                 padding: 1rem;
-                background: linear-gradient(to top, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 100%);
+                background: linear-gradient(to top, #f9fafb 0%, rgba(249, 250, 251, 0.95) 50%, rgba(249, 250, 251, 0) 100%);
                 backdrop-filter: blur(8px);
             }
 
             .dark .mobile-sticky-actions {
-                background: linear-gradient(to top, rgba(28,30,34,0.98) 0%, rgba(28,30,34,0.95) 50%, rgba(28,30,34,0) 100%);
+                background: linear-gradient(to top, #1c1e22 0%, rgba(28, 30, 34, 0.95) 50%, rgba(28, 30, 34, 0) 100%);
             }
 
             /* Add padding to content to avoid overlap with sticky buttons */

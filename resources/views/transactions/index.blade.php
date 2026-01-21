@@ -140,23 +140,25 @@
         @include('partials.cash-out-modal')
     @endpush
 
-    @push('mobile-actions')
         <!-- Sticky Mobile Action Buttons (only on mobile) -->
-        <div class="md:hidden mobile-sticky-actions">
-            <div class="flex gap-3 max-w-[1200px] mx-auto">
-                <button onclick="openModal('cashInModal')"
-                    class="flex-1 flex items-center justify-center gap-2 h-14 bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/30 hover:opacity-90 active:scale-95 transition-all">
-                    <i class="ti ti-circle-plus text-xl"></i>
-                    <span>Cash In</span>
-                </button>
-                <button onclick="openModal('cashOutModal')"
-                    class="flex-1 flex items-center justify-center gap-2 h-14 bg-danger-muted text-white rounded-xl font-bold shadow-lg shadow-red-500/30 hover:opacity-90 active:scale-95 transition-all">
-                    <i class="ti ti-circle-minus text-xl"></i>
-                    <span>Cash Out</span>
-                </button>
+        @push('mobile-actions')
+            <!-- Sticky Mobile Action Buttons (only on mobile) -->
+            <div class="md:hidden mobile-sticky-actions ">
+                <div
+                    class="flex gap-3 max-w-[1200px] mx-auto bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm border border-[#eaeff0]/60 dark:border-gray-700/40 rounded-xl p-3 shadow-lg dark:shadow-black/40">
+                    <button onclick="openModal('cashInModal')"
+                        class="flex-1 flex items-center justify-center gap-2 h-14 bg-success-muted dark:bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/30 dark:shadow-green-500/20 hover:opacity-90 active:scale-95 transition-all">
+                        <i class="ti ti-circle-plus text-xl"></i>
+                        <span>Cash In</span>
+                    </button>
+                    <button onclick="openModal('cashOutModal')"
+                        class="flex-1 flex items-center justify-center gap-2 h-14 bg-danger-muted dark:bg-danger-muted text-white rounded-xl font-bold shadow-lg shadow-red-500/30 dark:shadow-red-500/20 hover:opacity-90 active:scale-95 transition-all">
+                        <i class="ti ti-circle-minus text-xl"></i>
+                        <span>Cash Out</span>
+                    </button>
+                </div>
             </div>
-        </div>
-    @endpush
+        @endpush
 
     <!-- Modals are inherited from layout -->
 @endsection

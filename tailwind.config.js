@@ -1,5 +1,11 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
+/**
+ * Tailwind CSS v4 Configuration
+ *
+ * In Tailwind CSS v4, most configuration is done in your CSS file using @theme and @plugin directives.
+ * See resources/css/app.css for theme customization.
+ *
+ * This file is kept for compatibility but most settings are now in CSS.
+ */
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,14 +14,4 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
     ],
-
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
-        },
-    },
-
-    plugins: [forms],
 };
