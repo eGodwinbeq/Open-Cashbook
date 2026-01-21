@@ -24,7 +24,7 @@
                 <h1 class="text-3xl font-black tracking-tight">{{ $activeChapter->name }} Transactions</h1>
             </div>
 
-            <div class="flex gap-3">
+            <div class="hidden md:flex gap-3">
                 <button onclick="openModal('cashInModal')"
                     class="flex items-center gap-2 px-6 h-12 bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/20 hover:opacity-90 transition-all active:scale-95">
                     <i class="ti ti-circle-plus"></i>
@@ -113,7 +113,7 @@
                                     <td class="px-6 py-5 font-bold">{{ $transaction->description }}</td>
                                     <td class="px-6 py-5">
                                         <span
-                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider 
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
                                                         {{ $transaction->type == 'in' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
                                             {{ $transaction->category ?? 'General' }}
                                         </span>
@@ -134,6 +134,29 @@
             @endif
         </div>
     </div>
+
+    @push('transaction-modals')
+        @include('partials.cash-in-modal')
+        @include('partials.cash-out-modal')
+    @endpush
+
+    @push('mobile-actions')
+        <!-- Sticky Mobile Action Buttons (only on mobile) -->
+        <div class="md:hidden mobile-sticky-actions">
+            <div class="flex gap-3 max-w-[1200px] mx-auto">
+                <button onclick="openModal('cashInModal')"
+                    class="flex-1 flex items-center justify-center gap-2 h-14 bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/30 hover:opacity-90 active:scale-95 transition-all">
+                    <i class="ti ti-circle-plus text-xl"></i>
+                    <span>Cash In</span>
+                </button>
+                <button onclick="openModal('cashOutModal')"
+                    class="flex-1 flex items-center justify-center gap-2 h-14 bg-danger-muted text-white rounded-xl font-bold shadow-lg shadow-red-500/30 hover:opacity-90 active:scale-95 transition-all">
+                    <i class="ti ti-circle-minus text-xl"></i>
+                    <span>Cash Out</span>
+                </button>
+            </div>
+        </div>
+    @endpush
 
     <!-- Modals are inherited from layout -->
 @endsection

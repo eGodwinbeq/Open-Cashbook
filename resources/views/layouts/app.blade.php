@@ -78,12 +78,35 @@
 
         @media (max-width: 768px) {
             .sidebar {
-                transform: translateX(-100%);
+                transform: translateX(100%);
                 transition: transform 0.3s ease;
+                right: 0;
+                left: auto;
             }
 
             .sidebar.open {
                 transform: translateX(0);
+            }
+
+            /* Sticky mobile action buttons */
+            .mobile-sticky-actions {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 20;
+                padding: 1rem;
+                background: linear-gradient(to top, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0) 100%);
+                backdrop-filter: blur(8px);
+            }
+
+            .dark .mobile-sticky-actions {
+                background: linear-gradient(to top, rgba(28,30,34,0.98) 0%, rgba(28,30,34,0.95) 50%, rgba(28,30,34,0) 100%);
+            }
+
+            /* Add padding to content to avoid overlap with sticky buttons */
+            .mobile-content-padding {
+                padding-bottom: 5rem;
             }
         }
     </style>
@@ -98,7 +121,7 @@
     <div class="flex min-h-screen">
         <!-- Sidebar Navigation -->
         <aside id="sidebar"
-            class="sidebar w-72 bg-white dark:bg-[#25282c] border-r border-[#eaeff0] dark:border-gray-700 flex flex-col fixed h-full z-40">
+            class="sidebar w-72 bg-white dark:bg-[#25282c] border-l md:border-l-0 md:border-r border-[#eaeff0] dark:border-gray-700 flex flex-col fixed h-full z-40">
             <div class="p-6 flex flex-col h-full">
                 <div class="flex items-center justify-between mb-10">
                     <div class="flex items-center gap-3">
@@ -200,7 +223,7 @@
                 </div>
             </header>
 
-            <div class="p-4 md:p-8 max-w-[1200px] mx-auto w-full">
+            <div class="p-4 md:p-8 max-w-[1200px] mx-auto w-full mobile-content-padding">
                 @if(session('success'))
                     <div
                         class="mb-6 p-4 bg-green-50 dark:bg-green-900/20 text-success-muted rounded-xl border border-green-100 dark:border-green-800 flex items-center gap-3">
@@ -293,6 +316,12 @@
             </form>
         </div>
     </div>
+
+    <!-- Transaction Modals (Cash In/Out) -->
+    @stack('transaction-modals')
+
+    <!-- Mobile Sticky Action Buttons -->
+    @stack('mobile-actions')
 
     <script>
         function toggleSidebar() {

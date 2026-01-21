@@ -39,19 +39,6 @@
                     </button>
                 </div>
             </div>
-
-            <div class="md:hidden flex gap-3">
-                <button onclick="openModal('cashInModal')"
-                    class="flex-1 flex items-center justify-center gap-2 h-12 bg-success-muted text-white rounded-xl font-bold shadow-lg active:scale-95">
-                    <i class="ti ti-circle-plus"></i>
-                    <span>In</span>
-                </button>
-                <button onclick="openModal('cashOutModal')"
-                    class="flex-1 flex items-center justify-center gap-2 h-12 bg-danger-muted text-white rounded-xl font-bold shadow-lg active:scale-95">
-                    <i class="ti ti-circle-minus"></i>
-                    <span>Out</span>
-                </button>
-            </div>
         </div>
 
         <!-- Stats Summary -->
@@ -127,7 +114,7 @@
                                     <td class="px-6 py-5 font-bold">{{ $transaction->description }}</td>
                                     <td class="px-6 py-5">
                                         <span
-                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider 
+                                            class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
                                                 {{ $transaction->type == 'in' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
                                             {{ $transaction->category ?? 'General' }}
                                         </span>
@@ -174,112 +161,27 @@
             @endif
         </div>
 
-        <!-- Cash In Modal -->
-        <div id="cashInModal" class="modal">
-            <div
-                class="modal-content bg-white dark:bg-[#25282c] rounded-2xl shadow-2xl w-full max-w-md border border-gray-200 dark:border-gray-700">
-                <form method="POST" action="{{ route('transactions.store', $activeChapter) }}">
-                    @csrf
-                    <input type="hidden" name="type" value="in">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-success-muted/10 p-2 rounded-lg">
-                                <i class="ti ti-circle-plus text-success-muted text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold">Add Cash In</h3>
-                        </div>
-                        <button type="button" onclick="closeModal('cashInModal')" class="text-gray-400 hover:text-gray-600">
-                            <i class="ti ti-x text-xl"></i>
-                        </button>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Amount</label>
-                            <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">$</span>
-                                <input type="number" name="amount" step="0.01" placeholder="0.00" required
-                                    class="w-full pl-8 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-success-muted/50 font-semibold text-lg" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                            <input type="text" name="description" placeholder="e.g., Client payment" required
-                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-success-muted/50" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Category</label>
-                            <input type="text" name="category" placeholder="Freelance, Salary, etc."
-                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-success-muted/50" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Date</label>
-                            <input type="date" name="date" value="{{ date('Y-m-d') }}" required
-                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-success-muted/50" />
-                        </div>
-                    </div>
-                    <div class="p-6 border-t border-gray-100 dark:border-gray-700 flex gap-3">
-                        <button type="button" onclick="closeModal('cashInModal')"
-                            class="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-bold">Cancel</button>
-                        <button type="submit"
-                            class="flex-1 px-6 py-3 bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/20 hover:opacity-90 transition-all">Add
-                            Entry</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        @push('transaction-modals')
+            @include('partials.cash-in-modal')
+            @include('partials.cash-out-modal')
+        @endpush
 
-        <!-- Cash Out Modal -->
-        <div id="cashOutModal" class="modal">
-            <div
-                class="modal-content bg-white dark:bg-[#25282c] rounded-2xl shadow-2xl w-full max-w-md border border-gray-200 dark:border-gray-700">
-                <form method="POST" action="{{ route('transactions.store', $activeChapter) }}">
-                    @csrf
-                    <input type="hidden" name="type" value="out">
-                    <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="bg-danger-muted/10 p-2 rounded-lg">
-                                <i class="ti ti-circle-minus text-danger-muted text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold">Add Cash Out</h3>
-                        </div>
-                        <button type="button" onclick="closeModal('cashOutModal')" class="text-gray-400 hover:text-gray-600">
-                            <i class="ti ti-x text-xl"></i>
-                        </button>
-                    </div>
-                    <div class="p-6 space-y-4">
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Amount</label>
-                            <div class="relative">
-                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">$</span>
-                                <input type="number" name="amount" step="0.01" placeholder="0.00" required
-                                    class="w-full pl-8 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-danger-muted/50 font-semibold text-lg" />
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                            <input type="text" name="description" placeholder="e.g., Grocery shopping" required
-                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-danger-muted/50" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Category</label>
-                            <input type="text" name="category" placeholder="Food, Rent, etc."
-                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-danger-muted/50" />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Date</label>
-                            <input type="date" name="date" value="{{ date('Y-m-d') }}" required
-                                class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-danger-muted/50" />
-                        </div>
-                    </div>
-                    <div class="p-6 border-t border-gray-100 dark:border-gray-700 flex gap-3">
-                        <button type="button" onclick="closeModal('cashOutModal')"
-                            class="flex-1 px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-bold">Cancel</button>
-                        <button type="submit"
-                            class="flex-1 px-6 py-3 bg-danger-muted text-white rounded-xl font-bold shadow-lg shadow-red-500/20 hover:opacity-90 transition-all">Add
-                            Expense</button>
-                    </div>
-                </form>
+        @push('mobile-actions')
+            <!-- Sticky Mobile Action Buttons (only on mobile) -->
+            <div class="md:hidden mobile-sticky-actions">
+                <div class="flex gap-3 max-w-[1200px] mx-auto">
+                    <button onclick="openModal('cashInModal')"
+                        class="flex-1 flex items-center justify-center gap-2 h-14 bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/30 hover:opacity-90 active:scale-95 transition-all">
+                        <i class="ti ti-circle-plus text-xl"></i>
+                        <span>Cash In</span>
+                    </button>
+                    <button onclick="openModal('cashOutModal')"
+                        class="flex-1 flex items-center justify-center gap-2 h-14 bg-danger-muted text-white rounded-xl font-bold shadow-lg shadow-red-500/30 hover:opacity-90 active:scale-95 transition-all">
+                        <i class="ti ti-circle-minus text-xl"></i>
+                        <span>Cash Out</span>
+                    </button>
+                </div>
             </div>
-        </div>
+        @endpush
     @endif
 @endsection
