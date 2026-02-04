@@ -17,6 +17,11 @@ class Transaction extends Model
         'date',
         'notes'
     ];
+    
+    protected $casts = [
+        'amount' => 'decimal:2',
+        'date' => 'date',
+    ];
 
     public function chapter()
     {

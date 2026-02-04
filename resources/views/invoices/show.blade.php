@@ -23,13 +23,21 @@
             <i class="ti ti-download"></i> Download
         </a>
         @if($invoice->status !== 'paid')
-        <form action="{{ route('invoices.mark-paid', $invoice) }}" method="POST" class="inline">
-            @csrf
-            <button type="submit"
-                class="px-6 py-3 bg-green-600 text-white rounded-xl font-bold hover:opacity-90 transition-all">
-                <i class="ti ti-check"></i> Mark as Paid
-            </button>
-        </form>
+        <div class="flex gap-2">
+            @if($invoice->balance_due > 0)
+            <a href="{{ route('invoices.payment', $invoice) }}"
+               class="px-6 py-3 bg-green-600 text-white rounded-xl font-bold hover:opacity-90 transition-all">
+                <i class="ti ti-credit-card"></i> Add Payment
+            </a>
+            @endif
+            <form action="{{ route('invoices.mark-paid', $invoice) }}" method="POST" class="inline">
+                @csrf
+                <button type="submit"
+                    class="px-6 py-3 bg-green-600 text-white rounded-xl font-bold hover:opacity-90 transition-all">
+                    <i class="ti ti-check"></i> Mark as Paid
+                </button>
+            </form>
+        </div>
         @endif
     </div>
 </div>
@@ -48,14 +56,19 @@
                         $statusColors = [
                             'draft' => 'bg-gray-100 text-gray-800',
                             'sent' => 'bg-blue-100 text-blue-800',
-                            'paid' => 'bg-green-100 text-green-800',
-                            'overdue' => 'bg-red-100 text-red-800',
+                            'paid' => 'bg-green-100 text-green-800',                            'partially_paid' => 'bg-yellow-100 text-yellow-800',                            'overdue' => 'bg-red-100 text-red-800',
                             'cancelled' => 'bg-orange-100 text-orange-800',
                         ];
                     @endphp
                     <span class="px-4 py-2 rounded-full text-sm font-bold {{ $statusColors[$invoice->status] ?? 'bg-gray-100 text-gray-800' }}">
-                        {{ ucfirst($invoice->status) }}
+                        {{ ucwords(str_replace('_', ' ', $invoice->status)) }}
                     </span>
+                    @if($invoice->balance_due > 0 && $invoice->paid_amount > 0)
+                        <div class="mt-2 text-sm text-gray-600">
+                            <div>Paid: ${{ number_format($invoice->paid_amount, 2) }}</div>
+                            <div>Balance: ${{ number_format($invoice->balance_due, 2) }}</div>
+                        </div>
+                    @endif
                 </div>
             </div>
             <!-- Details Grid -->
@@ -175,6 +188,7 @@
                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">
                     <option value="draft" {{ $invoice->status == 'draft' ? 'selected' : '' }}>Draft</option>
                     <option value="sent" {{ $invoice->status == 'sent' ? 'selected' : '' }}>Sent</option>
+                    <option value="partially_paid" {{ $invoice->status == 'partially_paid' ? 'selected' : '' }}>Partially Paid</option>
                     <option value="paid" {{ $invoice->status == 'paid' ? 'selected' : '' }}>Paid</option>
                     <option value="overdue" {{ $invoice->status == 'overdue' ? 'selected' : '' }}>Overdue</option>
                     <option value="cancelled" {{ $invoice->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>

@@ -132,6 +132,11 @@
                         <i class="ti ti-file-invoice"></i>
                         <p class="text-sm font-semibold">Invoices</p>
                     </a>
+                    <a href="{{ route('revenue.report') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('revenue.*') ? 'bg-primary/10 text-primary' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800' }} transition-colors">
+                        <i class="ti ti-chart-line"></i>
+                        <p class="text-sm font-semibold">Revenue Report</p>
+                    </a>
                 </nav>
 
                 <div class="flex flex-col gap-1 mb-6 overflow-y-auto max-h-[50vh]">
