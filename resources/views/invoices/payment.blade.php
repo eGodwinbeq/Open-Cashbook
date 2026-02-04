@@ -44,7 +44,7 @@
                                 <label for="amount" class="block text-sm font-medium text-gray-700">Payment Amount</label>
                                 <input type="number" step="0.01" max="{{ $invoice->balance_due }}" name="amount" id="amount" 
                                        value="{{ old('amount', $invoice->balance_due) }}" 
-                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-white dark:text-black dark:border-gray-300">
                                 @error('amount')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -53,7 +53,7 @@
                             <div>
                                 <label for="payment_method" class="block text-sm font-medium text-gray-700">Payment Method</label>
                                 <select name="payment_method" id="payment_method" 
-                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-white dark:text-black dark:border-gray-300">
                                     <option value="cash" {{ old('payment_method') == 'cash' ? 'selected' : '' }}>Cash</option>
                                     <option value="bank_transfer" {{ old('payment_method') == 'bank_transfer' ? 'selected' : '' }}>Bank Transfer</option>
                                     <option value="check" {{ old('payment_method') == 'check' ? 'selected' : '' }}>Check</option>
@@ -69,7 +69,7 @@
                                 <label for="payment_date" class="block text-sm font-medium text-gray-700">Payment Date</label>
                                 <input type="date" name="payment_date" id="payment_date" 
                                        value="{{ old('payment_date', now()->format('Y-m-d')) }}" 
-                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-white dark:text-black dark:border-gray-300">
                                 @error('payment_date')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -79,7 +79,7 @@
                                 <label for="reference_number" class="block text-sm font-medium text-gray-700">Reference Number (Optional)</label>
                                 <input type="text" name="reference_number" id="reference_number" 
                                        value="{{ old('reference_number') }}" 
-                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                       class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-white dark:text-black dark:border-gray-300">
                                 @error('reference_number')
                                     <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -89,7 +89,7 @@
                         <div class="mt-6">
                             <label for="notes" class="block text-sm font-medium text-gray-700">Notes (Optional)</label>
                             <textarea name="notes" id="notes" rows="3" 
-                                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">{{ old('notes') }}</textarea>
+                                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm dark:bg-white dark:text-black dark:border-gray-300">{{ old('notes') }}</textarea>
                             @error('notes')
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror

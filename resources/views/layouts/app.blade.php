@@ -218,7 +218,7 @@
                     <div class="hidden md:block relative w-64">
                         <i class="ti ti-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                         <input
-                            class="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-800 border-none rounded-lg focus:ring-2 focus:ring-primary/50 text-sm transition-all"
+                            class="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-white border-none rounded-lg focus:ring-2 focus:ring-primary/50 text-sm transition-all dark:text-black"
                             placeholder="Search transactions..." type="text" />
                     </div>
                     <div class="flex gap-2 text-sm font-bold text-gray-400">
@@ -271,13 +271,13 @@
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Chapter
                             Name</label>
                         <input type="text" name="name" placeholder="e.g., 2026, Wedding Savings" required
-                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary/50" />
+                            class="w-full px-4 py-3 bg-gray-50 dark:bg-white border border-gray-200 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 dark:text-black" />
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Description
                             (Optional)</label>
                         <textarea name="description" rows="3" placeholder="What's this chapters for?"
-                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary/50 resize-none"></textarea>
+                            class="w-full px-4 py-3 bg-gray-50 dark:bg-white border border-gray-200 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary/50 resize-none dark:text-black"></textarea>
                     </div>
                 </div>
                 <div class="p-6 border-t border-gray-100 dark:border-gray-700 flex gap-3">

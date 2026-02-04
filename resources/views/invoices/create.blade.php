@@ -21,7 +21,7 @@
                     <div class="md:col-span-2">
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Client Name *</label>
                         <input type="text" name="client_name" value="{{ old('client_name') }}" required
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                         @error('client_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -29,7 +29,7 @@
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Client Email</label>
                         <input type="email" name="client_email" value="{{ old('client_email') }}"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                         @error('client_email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -37,12 +37,12 @@
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Client Phone</label>
                         <input type="text" name="client_phone" value="{{ old('client_phone') }}"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Client Address</label>
                         <textarea name="client_address" rows="2"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">{{ old('client_address') }}</textarea>
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">{{ old('client_address') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -60,25 +60,25 @@
                         <div class="col-span-12 md:col-span-5">
                             <label class="block text-sm font-bold mb-2 dark:text-gray-200">Description *</label>
                             <input type="text" name="items[0][description]" required
-                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                         </div>
                         <div class="col-span-6 md:col-span-2">
                             <label class="block text-sm font-bold mb-2 dark:text-gray-200">Qty *</label>
                             <input type="number" name="items[0][quantity]" value="1" min="1" required
-                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white"
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black"
                                 onchange="calculateItemAmount(this)">
                         </div>
                         <div class="col-span-6 md:col-span-3">
                             <label class="block text-sm font-bold mb-2 dark:text-gray-200">Unit Price *</label>
                             <input type="number" name="items[0][unit_price]" value="0" min="0" step="0.01" required
-                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white"
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black"
                                 onchange="calculateItemAmount(this)">
                         </div>
                         <div class="col-span-10 md:col-span-2 flex items-end">
                             <div class="w-full">
                                 <label class="block text-sm font-bold mb-2 dark:text-gray-200">Amount</label>
                                 <input type="text" readonly value="$0.00"
-                                    class="w-full px-4 py-2 bg-gray-100 dark:bg-[#1e2125] border border-gray-300 dark:border-gray-600 rounded-lg dark:text-white item-amount">
+                                    class="w-full px-4 py-2 bg-gray-100 dark:bg-white border border-gray-300 dark:border-gray-300 rounded-lg dark:text-black item-amount">
                             </div>
                         </div>
                         <div class="col-span-2 md:col-span-12 lg:col-span-2 flex items-end justify-end md:justify-start">
@@ -96,12 +96,12 @@
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Notes</label>
                         <textarea name="notes" rows="3"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">{{ old('notes') }}</textarea>
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">{{ old('notes') }}</textarea>
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Payment Terms</label>
                         <textarea name="terms" rows="3" placeholder="e.g., Payment due within 30 days"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">{{ old('terms') }}</textarea>
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">{{ old('terms') }}</textarea>
                     </div>
                 </div>
             </div>
@@ -115,12 +115,12 @@
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Invoice Number</label>
                         <input type="text" value="{{ $invoiceNumber }}" readonly
-                            class="w-full px-4 py-2 bg-gray-100 dark:bg-[#1e2125] border border-gray-300 dark:border-gray-600 rounded-lg dark:text-white">
+                            class="w-full px-4 py-2 bg-gray-100 dark:bg-white border border-gray-300 dark:border-gray-300 rounded-lg dark:text-black">
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Chapter (Optional)</label>
                         <select name="chapter_id"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                             <option value="">No Chapter</option>
                             @foreach($chapters as $chapter)
                                 <option value="{{ $chapter->id }}" {{ old('chapter_id') == $chapter->id ? 'selected' : '' }}>
@@ -132,12 +132,12 @@
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Invoice Date *</label>
                         <input type="date" name="invoice_date" value="{{ old('invoice_date', date('Y-m-d')) }}" required
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Due Date *</label>
                         <input type="date" name="due_date" value="{{ old('due_date', date('Y-m-d', strtotime('+30 days'))) }}" required
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white">
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                     </div>
                 </div>
             </div>
@@ -148,13 +148,13 @@
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Tax Rate (%)</label>
                         <input type="number" name="tax_rate" value="{{ old('tax_rate', 0) }}" min="0" max="100" step="0.01"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black"
                             onchange="calculateTotals()">
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Discount ($)</label>
                         <input type="number" name="discount_amount" value="{{ old('discount_amount', 0) }}" min="0" step="0.01"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-[#1e2125] dark:text-white"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black"
                             onchange="calculateTotals()">
                     </div>
                     <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
