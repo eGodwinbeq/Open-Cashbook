@@ -114,6 +114,26 @@
                     </button>
                 </div>
 
+                <!-- Navigation Menu -->
+                <nav class="flex flex-col gap-1 mb-6">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest px-3 mb-2">Navigation</p>
+                    <a href="{{ route('dashboard') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('dashboard') ? 'bg-primary/10 text-primary' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800' }} transition-colors">
+                        <i class="ti ti-home"></i>
+                        <p class="text-sm font-semibold">Dashboard</p>
+                    </a>
+                    <a href="{{ route('transactions.index') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('transactions.*') ? 'bg-primary/10 text-primary' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800' }} transition-colors">
+                        <i class="ti ti-exchange"></i>
+                        <p class="text-sm font-semibold">Transactions</p>
+                    </a>
+                    <a href="{{ route('invoices.index') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('invoices.*') ? 'bg-primary/10 text-primary' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800' }} transition-colors">
+                        <i class="ti ti-file-invoice"></i>
+                        <p class="text-sm font-semibold">Invoices</p>
+                    </a>
+                </nav>
+
                 <div class="flex flex-col gap-1 mb-6 overflow-y-auto max-h-[50vh]">
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest px-3 mb-2">My Financial Chapters
                     </p>
