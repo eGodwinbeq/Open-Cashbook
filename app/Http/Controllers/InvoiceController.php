@@ -6,6 +6,7 @@ use App\Models\InvoicePayment;
 use App\Models\Receipt;
 use App\Models\Chapter;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class InvoiceController extends Controller
@@ -169,10 +170,24 @@ class InvoiceController extends Controller
         $validated = $request->validate([
             'status' => 'required|in:draft,sent,paid,partially_paid,overdue,cancelled'
         ]);
+        
         $invoice->status = $validated['status'];
+        
+        // If setting to paid, ensure payment and transaction are created
         if ($validated['status'] === 'paid') {
             $invoice->paid_date = now();
+            
+            // Create payment transaction if none exists and there's a balance
+            if ($invoice->payments->count() === 0 && $invoice->total_amount > 0) {
+                $invoice->addPayment([
+                    'amount' => $invoice->total_amount,
+                    'payment_method' => 'cash',
+                    'payment_date' => now()->format('Y-m-d'),
+                    'notes' => 'Payment recorded when status updated to paid',
+                ]);
+            }
         }
+        
         $invoice->save();
         return back()->with('success', 'Invoice status updated successfully!');
     }
@@ -182,7 +197,7 @@ class InvoiceController extends Controller
             abort(403);
         }
         
-        // Create a full payment if balance is due
+        // Always create a payment transaction when marking as paid
         if ($invoice->balance_due > 0) {
             $invoice->addPayment([
                 'amount' => $invoice->balance_due,
@@ -191,7 +206,20 @@ class InvoiceController extends Controller
                 'notes' => 'Marked as paid - full payment',
             ]);
         } else {
-            $invoice->markAsPaid();
+            // If balance is 0, still create a payment for the total amount if no payments exist
+            if ($invoice->payments->count() === 0) {
+                $invoice->addPayment([
+                    'amount' => $invoice->total_amount,
+                    'payment_method' => 'cash',
+                    'payment_date' => now()->format('Y-m-d'),
+                    'notes' => 'Marked as paid - full payment recorded',
+                ]);
+            } else {
+                // Just update status if payments already exist
+                $invoice->status = 'paid';
+                $invoice->paid_date = now();
+                $invoice->save();
+            }
         }
         
         return back()->with('success', 'Invoice marked as paid!');
@@ -257,9 +285,9 @@ class InvoiceController extends Controller
         $expectedRevenue = $outstandingInvoices->sum('expected_revenue');
         
         $paidInvoices = auth()->user()->invoices()
-                                     ->where('status', 'paid')
-                                     ->with(['payments'])
-                                     ->get();
+                           ->where('status', 'paid')
+                           ->with(['payments'])
+                           ->get();
         
         $totalReceived = $paidInvoices->sum('paid_amount');
         

@@ -74,7 +74,7 @@ class Invoice extends Model
         if ($this->chapter_id) {
             $transaction = Transaction::create([
                 'chapter_id' => $this->chapter_id,
-                'type' => 'income',
+                'type' => 'in',  // Use 'in' for cash income transactions
                 'amount' => $payment->amount,
                 'description' => "Payment for Invoice #{$this->invoice_number}",
                 'category' => 'Invoice Payment',

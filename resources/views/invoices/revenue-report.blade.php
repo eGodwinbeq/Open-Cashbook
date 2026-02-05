@@ -1,14 +1,18 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Revenue Report') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
+@section('title', 'Revenue Report')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Summary Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+@section('content')
+<div class="mb-6">
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h1 class="text-2xl md:text-4xl font-black tracking-tight mb-1">Revenue Report</h1>
+            <p class="text-sm md:text-base text-gray-500">Track your income and expected revenue</p>
+        </div>
+    </div>
+</div>
+
+<!-- Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6">
                         <div class="flex items-center">
@@ -201,4 +205,4 @@
             @endif
         </div>
     </div>
-</x-app-layout>
+@endsection
