@@ -1,11 +1,30 @@
-@import 'tailwindcss';
-
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+  /* Font families */
+  --font-family-sans: Figtree, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-display: Manrope, var(--font-family-sans);
+
+  /* Custom colors - Define as theme colors */
+  --color-primary: #34748d;
+  --color-background-light: #f9fafb;
+  --color-background-dark: #1c1e22;
+  --color-success-muted: #4B8E65;
+  --color-danger-muted: #D64545;
+
+  /* Border radius overrides */
+  --radius: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
+/* Body default font */
+body {
+  font-family: var(--font-family-display);
+}
+
+/* Custom font display utility */
+@utility font-display {
+  font-family: var(--font-family-display);
 }

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Share chapters variable with all views so layouts that reference $chapters don't break
+        View::composer('*', function ($view) {
+            $user = auth()->user();
+            $chapters = $user ? $user->chapters : collect();
+            $view->with('chapters', $chapters);
+        });
     }
 }
