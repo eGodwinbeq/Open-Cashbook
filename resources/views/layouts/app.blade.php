@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Open Cashbook') }} - @yield('title', 'Cashbook Dashboard')</title>
+    <link rel="icon" type="image/png" href="{{ asset('Open_Cashbook_Logo.png') }}" />
 
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -104,10 +105,9 @@
             <div class="p-6 flex flex-col h-full">
                 <div class="flex items-center justify-between mb-10">
                     <div class="flex items-center gap-3">
-                        <div class="bg-primary rounded-lg p-2 text-white">
-                            <i class="ti ti-wallet text-2xl"></i>
-                        </div>
-                        <h1 class="text-xl font-extrabold tracking-tight">Open Cashbook</h1>
+                        <img src="{{ asset('Open_Cashbook_Logo.png') }}"
+                             alt="Open Cashbook Logo"
+                             class="h-14 w-auto">
                     </div>
                     <button class="md:hidden text-gray-500" onclick="toggleSidebar()">
                         <i class="ti ti-x text-2xl"></i>
