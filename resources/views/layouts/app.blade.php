@@ -200,9 +200,6 @@
             <header
                 class="h-16 md:h-20 bg-white/80 dark:bg-[#1c1e22]/80 backdrop-blur-md border-b border-[#eaeff0] dark:border-gray-700 px-4 md:px-8 flex items-center justify-between sticky top-0 z-10">
                 <div class="flex items-center gap-3 md:gap-4">
-                    <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
-                        <i class="ti ti-menu-2 text-2xl"></i>
-                    </button>
                     <h2 class="text-lg md:text-xl font-bold tracking-tight">{{ $activeChapter->name ?? 'Open Cashbook' }}
                     </h2>
                     @if(isset($activeChapter))
@@ -219,9 +216,12 @@
                             class="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-white border-none rounded-lg focus:ring-2 focus:ring-primary/50 text-sm transition-all dark:text-black"
                             placeholder="Search transactions..." type="text" />
                     </div>
-                    <div class="flex gap-2 text-sm font-bold text-gray-400">
+                    <div class="hidden md:flex gap-2 text-sm font-bold text-gray-400">
                         {{ now()->format('M d, Y') }}
                     </div>
+                    <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
+                        <i class="ti ti-menu-2 text-2xl"></i>
+                    </button>
                 </div>
             </header>
 
