@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>{{ config('app.name', 'Open Cashbook') }} - @yield('title', 'Authentication')</title>
+    <link rel="icon" type="image/png" href="{{ asset('Open_Cashbook_Logo.png') }}" />
 
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -26,10 +27,9 @@
 
     <div class="w-full max-w-md">
         <div class="flex items-center justify-center gap-3 mb-8">
-            <div class="bg-primary rounded-lg p-2 text-white">
-                <i class="ti ti-wallet text-2xl"></i>
-            </div>
-            <h1 class="text-2xl font-extrabold tracking-tight">Open Cashbook</h1>
+            <img src="{{ asset('Open_Cashbook_Logo.png') }}"
+                 alt="Open Cashbook Logo"
+                 class="h-20 w-auto">
         </div>
 
         @yield('content')

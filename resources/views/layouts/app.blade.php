@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Open Cashbook') }} - @yield('title', 'Cashbook Dashboard')</title>
+    <link rel="icon" type="image/png" href="{{ asset('Open_Cashbook_Logo.png') }}" />
 
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -102,14 +103,11 @@
         <aside id="sidebar"
             class="sidebar w-72 bg-white dark:bg-[#25282c] border-l md:border-l-0 md:border-r border-[#eaeff0] dark:border-gray-700 flex flex-col fixed h-full z-40">
             <div class="p-6 flex flex-col h-full">
-                <div class="flex items-center justify-between mb-10">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-primary rounded-lg p-2 text-white">
-                            <i class="ti ti-wallet text-2xl"></i>
-                        </div>
-                        <h1 class="text-xl font-extrabold tracking-tight">Open Cashbook</h1>
-                    </div>
-                    <button class="md:hidden text-gray-500" onclick="toggleSidebar()">
+                <div class="flex items-center justify-center mb-10 relative">
+                    <img src="{{ asset('Open_Cashbook_Logo.png') }}"
+                         alt="Open Cashbook Logo"
+                         class="h-14 w-auto">
+                    <button class="md:hidden text-gray-500 absolute right-0" onclick="toggleSidebar()">
                         <i class="ti ti-x text-2xl"></i>
                     </button>
                 </div>
@@ -202,9 +200,6 @@
             <header
                 class="h-16 md:h-20 bg-white/80 dark:bg-[#1c1e22]/80 backdrop-blur-md border-b border-[#eaeff0] dark:border-gray-700 px-4 md:px-8 flex items-center justify-between sticky top-0 z-10">
                 <div class="flex items-center gap-3 md:gap-4">
-                    <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
-                        <i class="ti ti-menu-2 text-2xl"></i>
-                    </button>
                     <h2 class="text-lg md:text-xl font-bold tracking-tight">{{ $activeChapter->name ?? 'Open Cashbook' }}
                     </h2>
                     @if(isset($activeChapter))
@@ -221,9 +216,12 @@
                             class="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-white border-none rounded-lg focus:ring-2 focus:ring-primary/50 text-sm transition-all dark:text-black"
                             placeholder="Search transactions..." type="text" />
                     </div>
-                    <div class="flex gap-2 text-sm font-bold text-gray-400">
+                    <div class="hidden md:flex gap-2 text-sm font-bold text-gray-400">
                         {{ now()->format('M d, Y') }}
                     </div>
+                    <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
+                        <i class="ti ti-menu-2 text-2xl"></i>
+                    </button>
                 </div>
             </header>
 
