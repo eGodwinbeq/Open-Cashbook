@@ -1,7 +1,8 @@
 <!-- Cash In Modal -->
 <div id="cashInModal" class="modal">
     <div class="modal-content bg-white dark:bg-[#25282c] rounded-2xl shadow-2xl w-full max-w-md border border-gray-200 dark:border-gray-700">
-        <form method="POST" action="{{ route('transactions.store', $activeChapter) }}">
+        @if($activeChapter ?? false)
+        <form method="POST" action="{{ route('transactions.create') }}">
             @csrf
             <input type="hidden" name="type" value="in">
             <div class="p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
@@ -52,5 +53,12 @@
                     class="flex-1 px-6 py-3 bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/20 hover:opacity-90 transition-all">Add Entry</button>
             </div>
         </form>
+        @else
+        <div class="p-6">
+            <p class="text-center text-gray-500">Please create or select a chapter first.</p>
+            <button type="button" onclick="closeModal('cashInModal')"
+                class="w-full mt-4 px-6 py-3 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-gray-700 transition-all">Close</button>
+        </div>
+        @endif
     </div>
 </div>

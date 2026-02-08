@@ -43,11 +43,17 @@ class TransactionController extends Controller
         return view('transactions.index', compact('transactions', 'activeChapter', 'chapters'));
     }
 
-    public function store(Request $request, Chapter $chapter)
+    public function store(Request $request, Chapter $chapter = null)
     {
-        // Simple authorization: check if chapter belongs to user
-        if ($chapter->user_id !== auth()->id()) {
-            abort(403);
+        // If no chapter provided via route parameter, get from session
+        // If chapter provided but doesn't belong to user, also use session
+        if (!$chapter || $chapter->user_id !== auth()->id()) {
+            $chapterId = session('active_chapter_id');
+            $chapter = $chapterId ? auth()->user()->chapters()->find($chapterId) : auth()->user()->chapters()->first();
+
+            if (!$chapter) {
+                return back()->with('error', 'Please create or select a chapter first.');
+            }
         }
 
         $request->validate([
