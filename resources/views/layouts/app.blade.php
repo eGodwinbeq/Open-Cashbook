@@ -103,13 +103,11 @@
         <aside id="sidebar"
             class="sidebar w-72 bg-white dark:bg-[#25282c] border-l md:border-l-0 md:border-r border-[#eaeff0] dark:border-gray-700 flex flex-col fixed h-full z-40">
             <div class="p-6 flex flex-col h-full">
-                <div class="flex items-center justify-between mb-10">
-                    <div class="flex items-center gap-3">
-                        <img src="{{ asset('Open_Cashbook_Logo.png') }}"
-                             alt="Open Cashbook Logo"
-                             class="h-14 w-auto">
-                    </div>
-                    <button class="md:hidden text-gray-500" onclick="toggleSidebar()">
+                <div class="flex items-center justify-center mb-10 relative">
+                    <img src="{{ asset('Open_Cashbook_Logo.png') }}"
+                         alt="Open Cashbook Logo"
+                         class="h-14 w-auto">
+                    <button class="md:hidden text-gray-500 absolute right-0" onclick="toggleSidebar()">
                         <i class="ti ti-x text-2xl"></i>
                     </button>
                 </div>
