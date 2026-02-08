@@ -24,3 +24,8 @@ Homestead.yaml
 Thumbs.db
 /public/build.zip
 /node_modules.zip
+.htaccess
+error_log
+node_modules.zip
+public/error_log
+tests/node_modules/
