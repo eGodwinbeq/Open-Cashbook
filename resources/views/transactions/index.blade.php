@@ -114,13 +114,13 @@
                                     <td class="px-6 py-5">
                                         <span
                                             class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                                        {{ $transaction->type == 'in' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
+                                                                    {{ $transaction->type == 'in' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600' }}">
                                             {{ $transaction->category ?? 'General' }}
                                         </span>
                                     </td>
                                     <td
                                         class="px-6 py-5 text-right font-black {{ $transaction->type == 'in' ? 'text-success-muted' : 'text-danger-muted' }}">
-                                        {{ $transaction->type == 'in' ? '+' : '-' }}${{ number_format($transaction->amount, 2) }}
+                                        {{ $transaction->type == 'in' ? '+' : '-' }}{{ auth()->user()->currency_symbol }}{{ number_format($transaction->amount, 2) }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -140,25 +140,25 @@
         @include('partials.cash-out-modal')
     @endpush
 
+    <!-- Sticky Mobile Action Buttons (only on mobile) -->
+    @push('mobile-actions')
         <!-- Sticky Mobile Action Buttons (only on mobile) -->
-        @push('mobile-actions')
-            <!-- Sticky Mobile Action Buttons (only on mobile) -->
-            <div class="md:hidden mobile-sticky-actions ">
-                <div
-                    class="flex gap-3 max-w-[1200px] mx-auto bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm border border-[#eaeff0]/60 dark:border-gray-700/40 rounded-xl p-3 shadow-lg dark:shadow-black/40">
-                    <button onclick="openModal('cashInModal')"
-                        class="flex-1 flex items-center justify-center gap-2 h-14 bg-success-muted dark:bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/30 dark:shadow-green-500/20 hover:opacity-90 active:scale-95 transition-all">
-                        <i class="ti ti-circle-plus text-xl"></i>
-                        <span>Cash In</span>
-                    </button>
-                    <button onclick="openModal('cashOutModal')"
-                        class="flex-1 flex items-center justify-center gap-2 h-14 bg-danger-muted dark:bg-danger-muted text-white rounded-xl font-bold shadow-lg shadow-red-500/30 dark:shadow-red-500/20 hover:opacity-90 active:scale-95 transition-all">
-                        <i class="ti ti-circle-minus text-xl"></i>
-                        <span>Cash Out</span>
-                    </button>
-                </div>
+        <div class="md:hidden mobile-sticky-actions ">
+            <div
+                class="flex gap-3 max-w-[1200px] mx-auto bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm border border-[#eaeff0]/60 dark:border-gray-700/40 rounded-xl p-3 shadow-lg dark:shadow-black/40">
+                <button onclick="openModal('cashInModal')"
+                    class="flex-1 flex items-center justify-center gap-2 h-14 bg-success-muted dark:bg-success-muted text-white rounded-xl font-bold shadow-lg shadow-green-500/30 dark:shadow-green-500/20 hover:opacity-90 active:scale-95 transition-all">
+                    <i class="ti ti-circle-plus text-xl"></i>
+                    <span>Cash In</span>
+                </button>
+                <button onclick="openModal('cashOutModal')"
+                    class="flex-1 flex items-center justify-center gap-2 h-14 bg-danger-muted dark:bg-danger-muted text-white rounded-xl font-bold shadow-lg shadow-red-500/30 dark:shadow-red-500/20 hover:opacity-90 active:scale-95 transition-all">
+                    <i class="ti ti-circle-minus text-xl"></i>
+                    <span>Cash Out</span>
+                </button>
             </div>
-        @endpush
+        </div>
+    @endpush
 
     <!-- Modals are inherited from layout -->
 @endsection

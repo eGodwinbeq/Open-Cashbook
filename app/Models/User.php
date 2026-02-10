@@ -23,6 +23,8 @@ class User extends Authenticatable
         'password',
         'google_id',
         'avatar',
+        'currency_symbol',
+        'onboarding_completed',
     ];
 
     /**
@@ -45,6 +47,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'onboarding_completed' => 'boolean',
         ];
     }
 
