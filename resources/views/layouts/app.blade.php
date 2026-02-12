@@ -104,9 +104,7 @@
             class="sidebar w-72 bg-white dark:bg-[#25282c] border-l md:border-l-0 md:border-r border-[#eaeff0] dark:border-gray-700 flex flex-col fixed h-full z-40">
             <div class="p-6 flex flex-col h-full">
                 <div class="flex items-center justify-center mb-10 relative">
-                    <img src="{{ asset('Open_Cashbook_Logo.png') }}"
-                         alt="Open Cashbook Logo"
-                         class="h-14 w-auto">
+                    <img src="{{ asset('Open_Cashbook_Logo.png') }}" alt="Open Cashbook Logo" class="h-14 w-auto">
                     <button class="md:hidden text-gray-500 absolute right-0" onclick="toggleSidebar()">
                         <i class="ti ti-x text-2xl"></i>
                     </button>
@@ -134,6 +132,11 @@
                         class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('revenue.*') ? 'bg-primary/10 text-primary' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800' }} transition-colors">
                         <i class="ti ti-chart-line"></i>
                         <p class="text-sm font-semibold">Revenue Report</p>
+                    </a>
+                    <a href="{{ route('settings') }}"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg {{ request()->routeIs('settings') ? 'bg-primary/10 text-primary' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800' }} transition-colors">
+                        <i class="ti ti-settings"></i>
+                        <p class="text-sm font-semibold">Settings</p>
                     </a>
                 </nav>
 
@@ -200,7 +203,8 @@
             <header
                 class="h-16 md:h-20 bg-white/80 dark:bg-[#1c1e22]/80 backdrop-blur-md border-b border-[#eaeff0] dark:border-gray-700 px-4 md:px-8 flex items-center justify-between sticky top-0 z-10">
                 <div class="flex items-center gap-3 md:gap-4">
-                    <h2 class="text-lg md:text-xl font-bold tracking-tight">{{ $activeChapter->name ?? 'Open Cashbook' }}
+                    <h2 class="text-lg md:text-xl font-bold tracking-tight">
+                        {{ $activeChapter->name ?? 'Open Cashbook' }}
                     </h2>
                     @if(isset($activeChapter))
                         <span
@@ -384,4 +388,3 @@
 </body>
 
 </html>
-

@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,6 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Revenue and receipt routes
     Route::get('/revenue-report', [InvoiceController::class, 'revenueReport'])->name('revenue.report');
     Route::get('/receipts/{receipt}/download', [InvoiceController::class, 'downloadReceipt'])->name('receipts.download');
+
+    // Settings routes
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+    Route::post('/settings/currency', [SettingsController::class, 'updateCurrency'])->name('settings.currency');
+    Route::post('/onboarding/complete', [SettingsController::class, 'completeOnboarding'])->name('onboarding.complete');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -51,7 +51,7 @@
                         <i class="ti ti-trending-up"></i>
                     </div>
                 </div>
-                <p class="text-2xl md:text-3xl font-black">${{ number_format($totalIn, 2) }}</p>
+                <p class="text-2xl md:text-3xl font-black">{{ auth()->user()->currency_symbol }}{{ number_format($totalIn, 2) }}</p>
             </div>
 
             <div
@@ -62,7 +62,7 @@
                         <i class="ti ti-trending-down"></i>
                     </div>
                 </div>
-                <p class="text-2xl md:text-3xl font-black">${{ number_format($totalOut, 2) }}</p>
+                <p class="text-2xl md:text-3xl font-black">{{ auth()->user()->currency_symbol }}{{ number_format($totalOut, 2) }}</p>
             </div>
 
             <div
@@ -73,7 +73,7 @@
                         <i class="ti ti-wallet"></i>
                     </div>
                 </div>
-                <p class="text-2xl md:text-3xl font-black">${{ number_format($balance, 2) }}</p>
+                <p class="text-2xl md:text-3xl font-black">{{ auth()->user()->currency_symbol }}{{ number_format($balance, 2) }}</p>
             </div>
         </div>
 
@@ -121,7 +121,7 @@
                                     </td>
                                     <td
                                         class="px-6 py-5 text-right font-black {{ $transaction->type == 'in' ? 'text-success-muted' : 'text-danger-muted' }}">
-                                        {{ $transaction->type == 'in' ? '+' : '-' }}${{ number_format($transaction->amount, 2) }}
+                                        {{ $transaction->type == 'in' ? '+' : '-' }}{{ auth()->user()->currency_symbol }}{{ number_format($transaction->amount, 2) }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -143,7 +143,7 @@
                                 </span>
                             </div>
                             <p class="font-black text-base {{ $transaction->type == 'in' ? 'text-success-muted' : 'text-danger-muted' }}">
-                                {{ $transaction->type == 'in' ? '+' : '-' }}${{ number_format($transaction->amount, 2) }}
+                                {{ $transaction->type == 'in' ? '+' : '-' }}{{ auth()->user()->currency_symbol }}{{ number_format($transaction->amount, 2) }}
                             </p>
                         </div>
                     @endforeach
@@ -162,6 +162,7 @@
         </div>
 
         @push('transaction-modals')
+            @include('partials.onboarding-modal')
             @include('partials.cash-in-modal')
             @include('partials.cash-out-modal')
         @endpush
