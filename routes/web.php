@@ -23,6 +23,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Invoice routes
     Route::resource('invoices', InvoiceController::class);
+    Route::get('/invoices-trash', [InvoiceController::class, 'trash'])->name('invoices.trash');
+    Route::post('/invoices/{invoice}/restore', [InvoiceController::class, 'restore'])->name('invoices.restore');
     Route::post('/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.mark-paid');
     Route::post('/invoices/{invoice}/update-status', [InvoiceController::class, 'updateStatus'])->name('invoices.update-status');
     Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');

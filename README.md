@@ -13,6 +13,8 @@ This repository contains a Laravel-based backend and a Tailwind CSS v4-powered f
 
 ## Recent Updates
 
+- ✅ **February 2026:** Invoice soft delete - Deleted invoices don't appear in reports
+- ✅ **February 2026:** Fixed 403 errors with route model binding scoping
 - ✅ **January 2026:** Rebranded to "Open Cashbook"
 - ✅ **January 2026:** Mobile UX improvements (right sidebar, sticky buttons)
 - ✅ **January 2026:** Upgraded to Tailwind CSS v4
@@ -48,6 +50,7 @@ npm run dev
 - [Mobile UX Improvements](MOBILE_UX_IMPROVEMENTS.md)
 - [Tailwind v4 Upgrade Guide](TAILWIND_V4_UPGRADE.md)
 - [Testing Checklist](TESTING_CHECKLIST.md)
+- **[Invoice Soft Delete Feature](INVOICE_SOFT_DELETE.md)** ⭐
 - **[Production Deployment Guide](PRODUCTION_DEPLOYMENT.md)** ⭐
 - **[Fix 403 Errors (Quick Guide)](FIX_403_ERRORS.md)** ⭐
 

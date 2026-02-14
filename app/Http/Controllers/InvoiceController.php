@@ -271,6 +271,36 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Show trashed (deleted) invoices
+     */
+    public function trash()
+    {
+        $trashedInvoices = auth()->user()->invoices()
+            ->onlyTrashed()
+            ->with(['chapter', 'items'])
+            ->orderBy('deleted_at', 'desc')
+            ->paginate(15);
+
+        return view('invoices.trash', compact('trashedInvoices'));
+    }
+
+    /**
+     * Restore a soft-deleted invoice
+     */
+    public function restore($id)
+    {
+        $invoice = Invoice::onlyTrashed()
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $invoice->restore();
+
+        return redirect()->route('invoices.index')
+            ->with('success', 'Invoice restored successfully!');
+    }
+
+    /**
      * Download receipt
      */
     public function downloadReceipt(Receipt $receipt)
