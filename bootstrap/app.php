@@ -11,7 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Uncomment the line below if your app is behind a proxy/load balancer (e.g., Cloudflare, AWS ELB)
+        // This helps Laravel correctly detect HTTPS and client IPs
+        // $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
