@@ -188,7 +188,7 @@
 
                     <!-- Quick Links -->
                     <div class="mt-4 flex items-stretch gap-2">
-                        <a href="#"
+                        <a href="{{ route('contacts.index') }}"
                             class="flex-1 flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
                             <i class="ti ti-users text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
                             <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Contacts</span>
@@ -198,7 +198,7 @@
                             <i class="ti ti-settings text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
                             <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Settings</span>
                         </a>
-                        <a href="#"
+                        <a href="{{ route('debtors.index') }}"
                             class="flex-1 flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
                             <i class="ti ti-receipt text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
                             <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Debtors</span>
