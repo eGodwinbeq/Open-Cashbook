@@ -17,10 +17,35 @@
             <!-- Client Information -->
             <div class="bg-white dark:bg-[#25282c] p-6 rounded-xl shadow-sm border border-[#eaeff0] dark:border-gray-700">
                 <h2 class="text-xl font-bold mb-4 dark:text-white">Client Information</h2>
+
+                <!-- Contact Selection -->
+                <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                    <label class="block text-sm font-bold mb-2 dark:text-gray-200">
+                        <i class="ti ti-users mr-1"></i>Select from Contacts (Optional)
+                    </label>
+                    <select id="contactSelect" name="contact_id"
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
+                        <option value="">-- Or enter manually below --</option>
+                        @foreach($contacts as $contact)
+                            <option value="{{ $contact->id }}"
+                                data-name="{{ $contact->name }}"
+                                data-email="{{ $contact->email }}"
+                                data-phone="{{ $contact->phone }}"
+                                data-address="{{ $contact->address }}">
+                                {{ $contact->name }}{{ $contact->company ? ' (' . $contact->company . ')' : '' }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">
+                        Selecting a contact will auto-fill the fields below.
+                        <a href="{{ route('contacts.create') }}" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">Add new contact</a>
+                    </p>
+                </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="md:col-span-2">
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Client Name *</label>
-                        <input type="text" name="client_name" value="{{ old('client_name') }}" required
+                        <input type="text" id="client_name" name="client_name" value="{{ old('client_name') }}" required
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                         @error('client_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -28,7 +53,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Client Email</label>
-                        <input type="email" name="client_email" value="{{ old('client_email') }}"
+                        <input type="email" id="client_email" name="client_email" value="{{ old('client_email') }}"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                         @error('client_email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -36,12 +61,12 @@
                     </div>
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Client Phone</label>
-                        <input type="text" name="client_phone" value="{{ old('client_phone') }}"
+                        <input type="text" id="client_phone" name="client_phone" value="{{ old('client_phone') }}"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
                     </div>
                     <div class="md:col-span-2">
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Client Address</label>
-                        <textarea name="client_address" rows="2"
+                        <textarea id="client_address" name="client_address" rows="2"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">{{ old('client_address') }}</textarea>
                     </div>
                 </div>
@@ -69,15 +94,22 @@
                                 onchange="calculateItemAmount(this)">
                         </div>
                         <div class="col-span-6 md:col-span-3">
-                            <label class="block text-sm font-bold mb-2 dark:text-gray-200">Unit Price *</label>
-                            <input type="number" name="items[0][unit_price]" value="0" min="0" step="0.01" required
+                            <label class="block text-sm font-bold mb-2 dark:text-gray-200">
+                                Unit Price
+                                <span class="text-primary ml-1">({{ auth()->user()->currency_symbol }})</span>
+                                *
+                            </label>
+                            <input type="number" name="items[0][unit_price]" value="0" min="0" step="0.01" placeholder="0.00" required
                                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black"
                                 onchange="calculateItemAmount(this)">
                         </div>
                         <div class="col-span-10 md:col-span-2 flex items-end">
                             <div class="w-full">
-                                <label class="block text-sm font-bold mb-2 dark:text-gray-200">Amount</label>
-                                <input type="text" readonly value="$0.00"
+                                <label class="block text-sm font-bold mb-2 dark:text-gray-200">
+                                    Amount
+                                    <span class="text-primary ml-1">({{ auth()->user()->currency_symbol }})</span>
+                                </label>
+                                <input type="text" readonly value="0.00"
                                     class="w-full px-4 py-2 bg-gray-100 dark:bg-white border border-gray-300 dark:border-gray-300 rounded-lg dark:text-black item-amount">
                             </div>
                         </div>
@@ -117,18 +149,8 @@
                         <input type="text" value="{{ $invoiceNumber }}" readonly
                             class="w-full px-4 py-2 bg-gray-100 dark:bg-white border border-gray-300 dark:border-gray-300 rounded-lg dark:text-black">
                     </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2 dark:text-gray-200">Chapter (Optional)</label>
-                        <select name="chapter_id"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
-                            <option value="">No Chapter</option>
-                            @foreach($chapters as $chapter)
-                                <option value="{{ $chapter->id }}" {{ old('chapter_id') == $chapter->id ? 'selected' : '' }}>
-                                    {{ $chapter->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <!-- Chapter is auto-linked in backend, hidden from user -->
+                    <input type="hidden" name="chapter_id" value="">
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Invoice Date *</label>
                         <input type="date" name="invoice_date" value="{{ old('invoice_date', date('Y-m-d')) }}" required
@@ -193,6 +215,17 @@
 </form>
 @push('scripts')
 <script>
+// Contact auto-fill
+document.getElementById('contactSelect').addEventListener('change', function() {
+    const selected = this.options[this.selectedIndex];
+    if (this.value) {
+        document.getElementById('client_name').value = selected.dataset.name || '';
+        document.getElementById('client_email').value = selected.dataset.email || '';
+        document.getElementById('client_phone').value = selected.dataset.phone || '';
+        document.getElementById('client_address').value = selected.dataset.address || '';
+    }
+});
+
 let itemCount = 1;
 function addItem() {
     const container = document.getElementById('items-container');
@@ -225,7 +258,7 @@ function calculateItemAmount(input) {
     const quantity = parseFloat(row.querySelector('input[name*="[quantity]"]').value) || 0;
     const unitPrice = parseFloat(row.querySelector('input[name*="[unit_price]"]').value) || 0;
     const amount = quantity * unitPrice;
-    row.querySelector('.item-amount').value = '$' + amount.toFixed(2);
+    row.querySelector('.item-amount').value = amount.toFixed(2);
     calculateTotals();
 }
 function calculateTotals() {

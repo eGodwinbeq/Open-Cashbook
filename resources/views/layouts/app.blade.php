@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8" />
@@ -95,6 +95,15 @@
 
 <body class="bg-background-light dark:bg-background-dark font-display text-[#111618] dark:text-gray-100 min-h-screen">
 
+    <!-- Theme Initialization Script (must be first to prevent flash) -->
+    <script>
+        // Initialize theme from localStorage or default to light
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.classList.add(theme);
+        })();
+    </script>
+
     <!-- Mobile Menu Overlay -->
     <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden" onclick="toggleSidebar()"></div>
 
@@ -176,7 +185,27 @@
                         <i class="ti ti-plus"></i>
                         <span>New Chapter</span>
                     </button>
-                    <div class="mt-8 flex items-center gap-3 px-3 py-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+
+                    <!-- Quick Links -->
+                    <div class="mt-4 flex items-stretch gap-2">
+                        <a href="{{ route('contacts.index') }}"
+                            class="flex-1 flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-users text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Contacts</span>
+                        </a>
+                        <a href="{{ route('settings') }}"
+                            class="flex-1 flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-settings text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Settings</span>
+                        </a>
+                        <a href="{{ route('debtors.index') }}"
+                            class="flex-1 flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-receipt text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Debtors</span>
+                        </a>
+                    </div>
+
+                    <div class="mt-6 flex items-center gap-3 px-3 py-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                         <img class="size-10 rounded-full object-cover"
                             src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&color=7F9CF5&background=EBF4FF"
                             alt="User profile" />
@@ -223,6 +252,15 @@
                     <div class="hidden md:flex gap-2 text-sm font-bold text-gray-400">
                         {{ now()->format('M d, Y') }}
                     </div>
+
+                    <!-- Theme Toggle Button -->
+                    <button onclick="toggleTheme()"
+                        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                        title="Toggle theme">
+                        <i id="theme-icon-sun" class="ti ti-sun text-xl text-gray-600 dark:text-gray-400 hidden dark:block"></i>
+                        <i id="theme-icon-moon" class="ti ti-moon text-xl text-gray-600 dark:text-gray-400 block dark:hidden"></i>
+                    </button>
+
                     <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
                         <i class="ti ti-menu-2 text-2xl"></i>
                     </button>
@@ -335,6 +373,19 @@
             const overlay = document.getElementById('mobileOverlay');
             sidebar.classList.toggle('open');
             overlay.classList.toggle('hidden');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            // Remove old theme and add new theme
+            html.classList.remove(currentTheme);
+            html.classList.add(newTheme);
+
+            // Save to localStorage
+            localStorage.setItem('theme', newTheme);
         }
 
         function openModal(modalId) {

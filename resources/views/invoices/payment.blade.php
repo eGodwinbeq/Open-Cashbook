@@ -76,15 +76,13 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="amount" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Payment
-                            Amount</label>
-                        <div class="relative">
-                            <span
-                                class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 font-bold">{{ auth()->user()->currency_symbol }}</span>
-                            <input type="number" step="0.01" max="{{ $invoice->balance_due }}" name="amount" id="amount"
-                                value="{{ old('amount', $invoice->balance_due) }}" required
-                                class="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary/50 font-semibold">
-                        </div>
+                        <label for="amount" class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            Payment Amount
+                            <span class="text-primary ml-1">({{ auth()->user()->currency_symbol }})</span>
+                        </label>
+                        <input type="number" step="0.01" max="{{ $invoice->balance_due }}" name="amount" id="amount"
+                            value="{{ old('amount', $invoice->balance_due) }}" placeholder="0.00" required
+                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary/50 font-semibold">
                         @error('amount')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror

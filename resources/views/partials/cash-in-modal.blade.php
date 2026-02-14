@@ -20,13 +20,13 @@
                 </div>
                 <div class="p-6 space-y-4">
                     <div>
-                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Amount</label>
-                        <div class="relative">
-                            <span
-                                class="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 font-bold">{{ auth()->user()->currency_symbol }}</span>
-                            <input type="number" name="amount" step="0.01" placeholder="Enter amount" required
-                                class="w-full pl-12 pr-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-success-muted/50 font-semibold text-lg" />
-                        </div>
+                        <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                            Amount
+                            <span class="text-primary ml-1">({{ auth()->user()->currency_symbol }})</span>
+                        </label>
+                        <input type="number" name="amount" step="0.01" placeholder="0.00" required
+                            class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-success-muted/50 font-semibold text-lg"
+                            autofocus />
                     </div>
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Description</label>

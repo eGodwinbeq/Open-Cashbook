@@ -22,24 +22,24 @@
         <p><strong>Receipt Date:</strong> {{ $receipt->receipt_date->format('F d, Y') }}</p>
         <p><strong>Client:</strong> {{ $receipt->client_name }}</p>
         <p><strong>Invoice Number:</strong> {{ $receipt->invoice->invoice_number }}</p>
-        
+
         <div style="margin: 20px 0; padding: 15px; border: 2px solid #2563eb; border-radius: 5px;">
             <p style="margin: 0;"><strong>Amount Received:</strong></p>
-            <p class="amount" style="margin: 5px 0 0 0;">${{ number_format($receipt->amount, 2) }}</p>
+            <p class="amount" style="margin: 5px 0 0 0;">{{ auth()->user()->currency_symbol }}{{ number_format($receipt->amount, 2) }}</p>
         </div>
     </div>
 
     <div class="details">
         <p><strong>Description:</strong> {{ $receipt->description }}</p>
-        
+
         @if(isset($receipt->receipt_data['payment_method']))
             <p><strong>Payment Method:</strong> {{ ucwords(str_replace('_', ' ', $receipt->receipt_data['payment_method'])) }}</p>
         @endif
-        
+
         @if(isset($receipt->receipt_data['reference_number']) && $receipt->receipt_data['reference_number'])
             <p><strong>Reference Number:</strong> {{ $receipt->receipt_data['reference_number'] }}</p>
         @endif
-        
+
         @if(isset($receipt->receipt_data['notes']) && $receipt->receipt_data['notes'])
             <p><strong>Notes:</strong> {{ $receipt->receipt_data['notes'] }}</p>
         @endif

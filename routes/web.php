@@ -6,6 +6,8 @@ use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DebtorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,6 +25,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Invoice routes
     Route::resource('invoices', InvoiceController::class);
+    Route::get('/invoices-trash', [InvoiceController::class, 'trash'])->name('invoices.trash');
+    Route::post('/invoices/{invoice}/restore', [InvoiceController::class, 'restore'])->name('invoices.restore');
     Route::post('/invoices/{invoice}/mark-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.mark-paid');
     Route::post('/invoices/{invoice}/update-status', [InvoiceController::class, 'updateStatus'])->name('invoices.update-status');
     Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
@@ -34,6 +38,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Revenue and receipt routes
     Route::get('/revenue-report', [InvoiceController::class, 'revenueReport'])->name('revenue.report');
     Route::get('/receipts/{receipt}/download', [InvoiceController::class, 'downloadReceipt'])->name('receipts.download');
+
+    // Contact routes
+    Route::resource('contacts', ContactController::class);
+
+    // Debtor routes
+    Route::resource('debtors', DebtorController::class)->except(['edit', 'update']);
+    Route::post('/debtors/{debtor}/payment', [DebtorController::class, 'addPayment'])->name('debtors.add-payment');
 
     // Settings routes
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings');

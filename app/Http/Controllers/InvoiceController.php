@@ -31,12 +31,14 @@ class InvoiceController extends Controller
     public function create()
     {
         $chapters = auth()->user()->chapters;
+        $contacts = auth()->user()->contacts()->orderBy('name')->get();
         $invoiceNumber = Invoice::generateInvoiceNumber();
-        return view('invoices.create', compact('chapters', 'invoiceNumber'));
+        return view('invoices.create', compact('chapters', 'contacts', 'invoiceNumber'));
     }
     public function store(Request $request)
     {
         $validated = $request->validate([
+            'contact_id' => 'nullable|exists:contacts,id',
             'chapter_id' => 'nullable|exists:chapters,id',
             'client_name' => 'required|string|max:255',
             'client_email' => 'nullable|email|max:255',
@@ -94,8 +96,9 @@ class InvoiceController extends Controller
     public function edit(Invoice $invoice)
     {
         $chapters = auth()->user()->chapters;
+        $contacts = auth()->user()->contacts()->orderBy('name')->get();
         $invoice->load('items');
-        return view('invoices.edit', compact('invoice', 'chapters'));
+        return view('invoices.edit', compact('invoice', 'chapters', 'contacts'));
     }
     public function update(Request $request, Invoice $invoice)
     {
@@ -268,6 +271,36 @@ class InvoiceController extends Controller
         return view('invoices.revenue-report', compact(
             'outstandingInvoices', 'expectedRevenue', 'paidInvoices', 'totalReceived'
         ));
+    }
+
+    /**
+     * Show trashed (deleted) invoices
+     */
+    public function trash()
+    {
+        $trashedInvoices = auth()->user()->invoices()
+            ->onlyTrashed()
+            ->with(['chapter', 'items'])
+            ->orderBy('deleted_at', 'desc')
+            ->paginate(15);
+
+        return view('invoices.trash', compact('trashedInvoices'));
+    }
+
+    /**
+     * Restore a soft-deleted invoice
+     */
+    public function restore($id)
+    {
+        $invoice = Invoice::onlyTrashed()
+            ->where('id', $id)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $invoice->restore();
+
+        return redirect()->route('invoices.index')
+            ->with('success', 'Invoice restored successfully!');
     }
 
     /**

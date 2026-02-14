@@ -10,7 +10,7 @@ class Invoice extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'user_id', 'chapter_id', 'invoice_number', 'client_name', 'client_email',
+        'user_id', 'contact_id', 'chapter_id', 'invoice_number', 'client_name', 'client_email',
         'client_address', 'client_phone', 'invoice_date', 'due_date', 'status',
         'subtotal', 'tax_rate', 'tax_amount', 'discount_amount', 'total_amount',
         'paid_amount', 'balance_due', 'is_revenue_generated', 'notes', 'terms', 'paid_date'
@@ -23,6 +23,7 @@ class Invoice extends Model
         'is_revenue_generated' => 'boolean',
     ];
     public function user(): BelongsTo { return $this->belongsTo(User::class); }
+    public function contact(): BelongsTo { return $this->belongsTo(Contact::class); }
     public function chapter(): BelongsTo { return $this->belongsTo(Chapter::class); }
     public function items(): HasMany { return $this->hasMany(InvoiceItem::class)->orderBy('sort_order'); }
     public function payments(): HasMany { return $this->hasMany(InvoicePayment::class); }
@@ -173,6 +174,42 @@ class Invoice extends Model
             if ($invoice->total_amount > 0) {
                 $invoice->generateExpectedRevenue();
             }
+        });
+
+        // Cascade soft delete to related models
+        static::deleting(function ($invoice) {
+            // Soft delete all invoice items
+            $invoice->items()->delete();
+
+            // Soft delete all invoice payments (and their related transactions)
+            foreach ($invoice->payments as $payment) {
+                // Soft delete the associated transaction if exists
+                if ($payment->transaction_id) {
+                    Transaction::find($payment->transaction_id)?->delete();
+                }
+                $payment->delete();
+            }
+
+            // Soft delete all receipts
+            $invoice->receipts()->delete();
+        });
+
+        // Restore related models when invoice is restored
+        static::restoring(function ($invoice) {
+            // Restore all invoice items
+            $invoice->items()->withTrashed()->restore();
+
+            // Restore all invoice payments and their transactions
+            foreach ($invoice->payments()->withTrashed()->get() as $payment) {
+                // Restore the associated transaction if exists
+                if ($payment->transaction_id) {
+                    Transaction::withTrashed()->find($payment->transaction_id)?->restore();
+                }
+                $payment->restore();
+            }
+
+            // Restore all receipts
+            $invoice->receipts()->withTrashed()->restore();
         });
     }
 
