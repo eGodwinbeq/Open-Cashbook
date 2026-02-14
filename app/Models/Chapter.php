@@ -19,4 +19,14 @@ class Chapter extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    /**
+     * Retrieve the model for a bound value (route model binding with user scoping)
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where($field ?? 'id', $value)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+    }
 }

@@ -4,6 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Builder;
+
 class Invoice extends Model
 {
     use SoftDeletes;
@@ -38,7 +40,7 @@ class Invoice extends Model
     {
         $this->paid_amount = $this->payments->sum('amount');
         $this->balance_due = $this->total_amount - $this->paid_amount;
-        
+
         // Update status based on payment
         if ($this->balance_due <= 0 && $this->paid_amount > 0) {
             $this->status = 'paid';
@@ -69,7 +71,7 @@ class Invoice extends Model
     public function addPayment(array $paymentData): InvoicePayment
     {
         $payment = $this->payments()->create($paymentData);
-        
+
         // Create corresponding transaction
         if ($this->chapter_id) {
             $transaction = Transaction::create([
@@ -81,18 +83,18 @@ class Invoice extends Model
                 'date' => $payment->payment_date,
                 'notes' => $payment->notes,
             ]);
-            
+
             $payment->update(['transaction_id' => $transaction->id]);
         }
-        
+
         // Generate receipt
         $payment->generateReceipt();
-        
+
         // Recalculate totals and status
         $this->load('payments');
         $this->calculateBalanceDue();
         $this->save();
-        
+
         return $payment;
     }
 
@@ -111,7 +113,7 @@ class Invoice extends Model
                 'date' => $this->invoice_date,
                 'notes' => "Expected revenue for client: {$this->client_name}",
             ]);
-            
+
             $this->update(['is_revenue_generated' => true]);
         }
     }
@@ -124,11 +126,11 @@ class Invoice extends Model
         $query = self::with(['chapter', 'payments'])
                     ->where('status', '!=', 'paid')
                     ->where('status', '!=', 'cancelled');
-        
+
         if ($userId) {
             $query->where('user_id', $userId);
         }
-        
+
         return $query->get();
     }
 
@@ -143,7 +145,7 @@ class Invoice extends Model
     {
         return match($this->status) {
             'draft' => 'gray', 'sent' => 'blue', 'paid' => 'green',
-            'partially_paid' => 'yellow', 'overdue' => 'red', 'cancelled' => 'orange', 
+            'partially_paid' => 'yellow', 'overdue' => 'red', 'cancelled' => 'orange',
             default => 'gray'
         };
     }
@@ -154,7 +156,7 @@ class Invoice extends Model
     protected static function boot()
     {
         parent::boot();
-        
+
         static::creating(function ($invoice) {
             // Auto-link to Financial Chapter if no chapter is specified
             if (!$invoice->chapter_id && $invoice->user_id) {
@@ -165,12 +167,26 @@ class Invoice extends Model
                 $invoice->chapter_id = $financialChapter->id;
             }
         });
-        
+
         static::created(function ($invoice) {
             // Generate expected revenue after creation if total > 0
             if ($invoice->total_amount > 0) {
                 $invoice->generateExpectedRevenue();
             }
         });
+    }
+
+    /**
+     * Retrieve the model for a bound value (route model binding with user scoping)
+     *
+     * @param  mixed  $value
+     * @param  string|null  $field
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where($field ?? 'id', $value)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
     }
 }

@@ -87,26 +87,18 @@ class InvoiceController extends Controller
     }
     public function show(Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
         $invoice->load(['items', 'chapter', 'payments.receipt', 'receipts']);
         return view('invoices.show', compact('invoice'));
     }
+
     public function edit(Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
         $chapters = auth()->user()->chapters;
         $invoice->load('items');
         return view('invoices.edit', compact('invoice', 'chapters'));
     }
     public function update(Request $request, Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
         $validated = $request->validate([
             'chapter_id' => 'nullable|exists:chapters,id',
             'client_name' => 'required|string|max:255',
@@ -156,27 +148,22 @@ class InvoiceController extends Controller
     }
     public function destroy(Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
         $invoice->delete();
         return redirect()->route('invoices.index')->with('success', 'Invoice deleted successfully!');
     }
+
     public function updateStatus(Request $request, Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
         $validated = $request->validate([
             'status' => 'required|in:draft,sent,paid,partially_paid,overdue,cancelled'
         ]);
-        
+
         $invoice->status = $validated['status'];
-        
+
         // If setting to paid, ensure payment and transaction are created
         if ($validated['status'] === 'paid') {
             $invoice->paid_date = now();
-            
+
             // Create payment transaction if none exists and there's a balance
             if ($invoice->payments->count() === 0 && $invoice->total_amount > 0) {
                 $invoice->addPayment([
@@ -187,16 +174,12 @@ class InvoiceController extends Controller
                 ]);
             }
         }
-        
+
         $invoice->save();
         return back()->with('success', 'Invoice status updated successfully!');
     }
     public function markAsPaid(Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
-        
         // Always create a payment transaction when marking as paid
         if ($invoice->balance_due > 0) {
             $invoice->addPayment([
@@ -221,14 +204,11 @@ class InvoiceController extends Controller
                 $invoice->save();
             }
         }
-        
+
         return back()->with('success', 'Invoice marked as paid!');
     }
     public function download(Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
         $invoice->load('items');
         return view('invoices.pdf', compact('invoice'));
     }
@@ -238,9 +218,6 @@ class InvoiceController extends Controller
      */
     public function showPaymentForm(Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
 
         $invoice->load(['payments', 'receipts']);
         return view('invoices.payment', compact('invoice'));
@@ -251,9 +228,6 @@ class InvoiceController extends Controller
      */
     public function processPayment(Request $request, Invoice $invoice)
     {
-        if ($invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
 
         $validated = $request->validate([
             'amount' => 'required|numeric|min:0.01|max:' . $invoice->balance_due,
@@ -283,14 +257,14 @@ class InvoiceController extends Controller
     {
         $outstandingInvoices = Invoice::getOutstandingInvoices(auth()->id());
         $expectedRevenue = $outstandingInvoices->sum('expected_revenue');
-        
+
         $paidInvoices = auth()->user()->invoices()
                            ->where('status', 'paid')
                            ->with(['payments'])
                            ->get();
-        
+
         $totalReceived = $paidInvoices->sum('paid_amount');
-        
+
         return view('invoices.revenue-report', compact(
             'outstandingInvoices', 'expectedRevenue', 'paidInvoices', 'totalReceived'
         ));
@@ -301,9 +275,6 @@ class InvoiceController extends Controller
      */
     public function downloadReceipt(Receipt $receipt)
     {
-        if ($receipt->invoice->user_id !== auth()->id()) {
-            abort(403);
-        }
 
         return view('invoices.receipt-pdf', compact('receipt'));
     }
