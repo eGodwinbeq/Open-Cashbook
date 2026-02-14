@@ -309,5 +309,4 @@ function calculateTotals() {
 }
 document.addEventListener('DOMContentLoaded', calculateTotals);
 </script>
-@endpush
 @endsection
