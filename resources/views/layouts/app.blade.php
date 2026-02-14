@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8" />
@@ -94,6 +94,15 @@
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-[#111618] dark:text-gray-100 min-h-screen">
+
+    <!-- Theme Initialization Script (must be first to prevent flash) -->
+    <script>
+        // Initialize theme from localStorage or default to light
+        (function() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.classList.add(theme);
+        })();
+    </script>
 
     <!-- Mobile Menu Overlay -->
     <div id="mobileOverlay" class="fixed inset-0 bg-black/50 z-30 hidden md:hidden" onclick="toggleSidebar()"></div>
@@ -243,6 +252,15 @@
                     <div class="hidden md:flex gap-2 text-sm font-bold text-gray-400">
                         {{ now()->format('M d, Y') }}
                     </div>
+
+                    <!-- Theme Toggle Button -->
+                    <button onclick="toggleTheme()"
+                        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                        title="Toggle theme">
+                        <i id="theme-icon-sun" class="ti ti-sun text-xl text-gray-600 dark:text-gray-400 hidden dark:block"></i>
+                        <i id="theme-icon-moon" class="ti ti-moon text-xl text-gray-600 dark:text-gray-400 block dark:hidden"></i>
+                    </button>
+
                     <button class="md:hidden text-gray-600 dark:text-gray-300" onclick="toggleSidebar()">
                         <i class="ti ti-menu-2 text-2xl"></i>
                     </button>
@@ -355,6 +373,19 @@
             const overlay = document.getElementById('mobileOverlay');
             sidebar.classList.toggle('open');
             overlay.classList.toggle('hidden');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            // Remove old theme and add new theme
+            html.classList.remove(currentTheme);
+            html.classList.add(newTheme);
+
+            // Save to localStorage
+            localStorage.setItem('theme', newTheme);
         }
 
         function openModal(modalId) {
