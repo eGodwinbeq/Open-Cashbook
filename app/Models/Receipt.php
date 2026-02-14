@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Receipt extends Model
 {
     protected $fillable = [
-        'receipt_number', 'invoice_id', 'invoice_payment_id', 'amount', 
+        'receipt_number', 'invoice_id', 'invoice_payment_id', 'amount',
         'receipt_date', 'client_name', 'description', 'receipt_data'
     ];
 
@@ -36,18 +36,30 @@ class Receipt extends Model
         $year = date('Y');
         $month = date('m');
         $prefix = "RCP-{$year}{$month}";
-        
+
         $lastReceipt = self::where('receipt_number', 'LIKE', "{$prefix}%")
                            ->orderBy('receipt_number', 'desc')
                            ->first();
-        
+
         if ($lastReceipt) {
             $lastNumber = intval(substr($lastReceipt->receipt_number, -4));
             $newNumber = str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
         } else {
             $newNumber = '0001';
         }
-        
+
         return "{$prefix}-{$newNumber}";
+    }
+
+    /**
+     * Retrieve the model for a bound value (route model binding with user scoping through invoice)
+     */
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->where($field ?? 'id', $value)
+            ->whereHas('invoice', function($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->firstOrFail();
     }
 }
