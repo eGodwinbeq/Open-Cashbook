@@ -75,7 +75,7 @@
                         {{ $invoice->due_date->format('M d, Y') }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap font-bold dark:text-white">
-                        ${{ number_format($invoice->total_amount, 2) }}
+                        {{ auth()->user()->currency_symbol }}{{ number_format($invoice->total_amount, 2) }}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         @php

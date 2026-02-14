@@ -65,8 +65,8 @@
                     </span>
                     @if($invoice->balance_due > 0 && $invoice->paid_amount > 0)
                         <div class="mt-2 text-sm text-gray-600">
-                            <div>Paid: ${{ number_format($invoice->paid_amount, 2) }}</div>
-                            <div>Balance: ${{ number_format($invoice->balance_due, 2) }}</div>
+                            <div>Paid: {{ auth()->user()->currency_symbol }}{{ number_format($invoice->paid_amount, 2) }}</div>
+                            <div>Balance: {{ auth()->user()->currency_symbol }}{{ number_format($invoice->balance_due, 2) }}</div>
                         </div>
                     @endif
                 </div>
@@ -97,12 +97,6 @@
                         <h3 class="text-sm font-bold text-gray-500 uppercase mb-2">Due Date:</h3>
                         <p class="dark:text-white">{{ $invoice->due_date->format('F d, Y') }}</p>
                     </div>
-                    @if($invoice->chapter)
-                    <div>
-                        <h3 class="text-sm font-bold text-gray-500 uppercase mb-2">Chapter:</h3>
-                        <p class="dark:text-white">{{ $invoice->chapter->name }}</p>
-                    </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -124,8 +118,8 @@
                         <tr>
                             <td class="py-4 dark:text-white">{{ $item->description }}</td>
                             <td class="py-4 text-right dark:text-white">{{ $item->quantity }}</td>
-                            <td class="py-4 text-right dark:text-white">${{ number_format($item->unit_price, 2) }}</td>
-                            <td class="py-4 text-right font-bold dark:text-white">${{ number_format($item->amount, 2) }}</td>
+                            <td class="py-4 text-right dark:text-white">{{ auth()->user()->currency_symbol }}{{ number_format($item->unit_price, 2) }}</td>
+                            <td class="py-4 text-right font-bold dark:text-white">{{ auth()->user()->currency_symbol }}{{ number_format($item->amount, 2) }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -137,23 +131,23 @@
                     <div class="w-full md:w-1/2 space-y-2">
                         <div class="flex justify-between dark:text-gray-300">
                             <span>Subtotal:</span>
-                            <span>${{ number_format($invoice->subtotal, 2) }}</span>
+                            <span>{{ auth()->user()->currency_symbol }}{{ number_format($invoice->subtotal, 2) }}</span>
                         </div>
                         @if($invoice->tax_rate > 0)
                         <div class="flex justify-between dark:text-gray-300">
                             <span>Tax ({{ $invoice->tax_rate }}%):</span>
-                            <span>${{ number_format($invoice->tax_amount, 2) }}</span>
+                            <span>{{ auth()->user()->currency_symbol }}{{ number_format($invoice->tax_amount, 2) }}</span>
                         </div>
                         @endif
                         @if($invoice->discount_amount > 0)
                         <div class="flex justify-between dark:text-gray-300">
                             <span>Discount:</span>
-                            <span>-${{ number_format($invoice->discount_amount, 2) }}</span>
+                            <span>-{{ auth()->user()->currency_symbol }}{{ number_format($invoice->discount_amount, 2) }}</span>
                         </div>
                         @endif
                         <div class="flex justify-between text-2xl font-bold pt-2 border-t border-gray-300 dark:border-gray-600 dark:text-white">
                             <span>Total:</span>
-                            <span>${{ number_format($invoice->total_amount, 2) }}</span>
+                            <span>{{ auth()->user()->currency_symbol }}{{ number_format($invoice->total_amount, 2) }}</span>
                         </div>
                     </div>
                 </div>

@@ -59,12 +59,6 @@
                 <div class="section-title">Due Date:</div>
                 <div>{{ $invoice->due_date->format('F d, Y') }}</div>
             </div>
-            @if($invoice->chapter)
-            <div style="margin-top: 15px;">
-                <div class="section-title">Chapter:</div>
-                <div>{{ $invoice->chapter->name }}</div>
-            </div>
-            @endif
         </div>
     </div>
     <table>
@@ -81,8 +75,8 @@
             <tr>
                 <td>{{ $item->description }}</td>
                 <td class="text-right">{{ $item->quantity }}</td>
-                <td class="text-right">${{ number_format($item->unit_price, 2) }}</td>
-                <td class="text-right">${{ number_format($item->amount, 2) }}</td>
+                <td class="text-right">{{ auth()->user()->currency_symbol }}{{ number_format($item->unit_price, 2) }}</td>
+                <td class="text-right">{{ auth()->user()->currency_symbol }}{{ number_format($item->amount, 2) }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -90,23 +84,23 @@
     <div class="totals">
         <div class="totals-row">
             <span>Subtotal:</span>
-            <span>${{ number_format($invoice->subtotal, 2) }}</span>
+            <span>{{ auth()->user()->currency_symbol }}{{ number_format($invoice->subtotal, 2) }}</span>
         </div>
         @if($invoice->tax_rate > 0)
         <div class="totals-row">
             <span>Tax ({{ $invoice->tax_rate }}%):</span>
-            <span>${{ number_format($invoice->tax_amount, 2) }}</span>
+            <span>{{ auth()->user()->currency_symbol }}{{ number_format($invoice->tax_amount, 2) }}</span>
         </div>
         @endif
         @if($invoice->discount_amount > 0)
         <div class="totals-row">
             <span>Discount:</span>
-            <span>-${{ number_format($invoice->discount_amount, 2) }}</span>
+            <span>-{{ auth()->user()->currency_symbol }}{{ number_format($invoice->discount_amount, 2) }}</span>
         </div>
         @endif
         <div class="totals-row total">
             <span>Total:</span>
-            <span>${{ number_format($invoice->total_amount, 2) }}</span>
+            <span>{{ auth()->user()->currency_symbol }}{{ number_format($invoice->total_amount, 2) }}</span>
         </div>
     </div>
     @if($invoice->notes || $invoice->terms)

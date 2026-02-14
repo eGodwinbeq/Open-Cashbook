@@ -25,7 +25,7 @@
                             </div>
                             <div class="ml-4">
                                 <p class="text-sm font-medium text-gray-500">Expected Revenue</p>
-                                <p class="text-2xl font-semibold text-gray-900">${{ number_format($expectedRevenue, 2) }}</p>
+                                <p class="text-2xl font-semibold text-gray-900">{{ auth()->user()->currency_symbol }}{{ number_format($expectedRevenue, 2) }}</p>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                             </div>
                             <div class="ml-4">
                                 <p class="text-sm font-medium text-gray-500">Total Received</p>
-                                <p class="text-2xl font-semibold text-gray-900">${{ number_format($totalReceived, 2) }}</p>
+                                <p class="text-2xl font-semibold text-gray-900">{{ auth()->user()->currency_symbol }}{{ number_format($totalReceived, 2) }}</p>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-8">
                 <div class="p-6">
                     <h3 class="text-lg font-semibold mb-4">Outstanding Invoices (Expected Revenue Sources)</h3>
-                    
+
                     @if($outstandingInvoices->count() > 0)
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200">
@@ -106,14 +106,14 @@
                                                 @endif
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                ${{ number_format($invoice->total_amount, 2) }}
+                                                {{ auth()->user()->currency_symbol }}{{ number_format($invoice->total_amount, 2) }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                ${{ number_format($invoice->paid_amount, 2) }}
+                                                {{ auth()->user()->currency_symbol }}{{ number_format($invoice->paid_amount, 2) }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 <span class="font-semibold {{ $invoice->balance_due > 0 ? 'text-red-600' : 'text-green-600' }}">
-                                                    ${{ number_format($invoice->balance_due, 2) }}
+                                                    {{ auth()->user()->currency_symbol }}{{ number_format($invoice->balance_due, 2) }}
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
@@ -127,9 +127,9 @@
                                                 </span>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <a href="{{ route('invoices.payment', $invoice) }}" 
+                                                <a href="{{ route('invoices.payment', $invoice) }}"
                                                    class="text-blue-600 hover:text-blue-900 mr-2">Add Payment</a>
-                                                <a href="{{ route('invoices.show', $invoice) }}" 
+                                                <a href="{{ route('invoices.show', $invoice) }}"
                                                    class="text-gray-600 hover:text-gray-900">View</a>
                                             </td>
                                         </tr>
@@ -186,13 +186,13 @@
                                                 {{ $invoice->paid_date ? $invoice->paid_date->format('M d, Y') : '-' }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                ${{ number_format($invoice->paid_amount, 2) }}
+                                                {{ auth()->user()->currency_symbol }}{{ number_format($invoice->paid_amount, 2) }}
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                 {{ $invoice->payments->count() }} payment(s)
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                <a href="{{ route('invoices.show', $invoice) }}" 
+                                                <a href="{{ route('invoices.show', $invoice) }}"
                                                    class="text-blue-600 hover:text-blue-900">View Details</a>
                                             </td>
                                         </tr>

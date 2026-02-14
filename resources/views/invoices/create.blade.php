@@ -124,18 +124,8 @@
                         <input type="text" value="{{ $invoiceNumber }}" readonly
                             class="w-full px-4 py-2 bg-gray-100 dark:bg-white border border-gray-300 dark:border-gray-300 rounded-lg dark:text-black">
                     </div>
-                    <div>
-                        <label class="block text-sm font-bold mb-2 dark:text-gray-200">Chapter (Optional)</label>
-                        <select name="chapter_id"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black">
-                            <option value="">No Chapter</option>
-                            @foreach($chapters as $chapter)
-                                <option value="{{ $chapter->id }}" {{ old('chapter_id') == $chapter->id ? 'selected' : '' }}>
-                                    {{ $chapter->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+                    <!-- Chapter is auto-linked in backend, hidden from user -->
+                    <input type="hidden" name="chapter_id" value="">
                     <div>
                         <label class="block text-sm font-bold mb-2 dark:text-gray-200">Invoice Date *</label>
                         <input type="date" name="invoice_date" value="{{ old('invoice_date', date('Y-m-d')) }}" required
