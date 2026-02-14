@@ -177,22 +177,22 @@
                         <span>New Chapter</span>
                     </button>
 
-                    <!-- Quick Links Horizontal -->
-                    <div class="mt-4 flex items-center gap-2">
+                    <!-- Quick Links -->
+                    <div class="mt-4 flex items-stretch gap-2">
                         <a href="#"
-                            class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
-                            <i class="ti ti-users text-base text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
-                            <span class="text-xs font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Contacts</span>
+                            class="flex-1 flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-users text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Contacts</span>
                         </a>
                         <a href="{{ route('settings') }}"
-                            class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
-                            <i class="ti ti-settings text-base text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
-                            <span class="text-xs font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Settings</span>
+                            class="flex-1 flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-settings text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Settings</span>
                         </a>
                         <a href="#"
-                            class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
-                            <i class="ti ti-receipt text-base text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
-                            <span class="text-xs font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Debtors</span>
+                            class="flex-1 flex flex-col items-center justify-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-receipt text-xl text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Debtors</span>
                         </a>
                     </div>
 

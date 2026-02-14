@@ -41,17 +41,38 @@
             <form method="POST" action="{{ route('settings.currency') }}" class="p-6">
                 @csrf
                 <div class="max-w-md">
-                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Currency Symbol</label>
+                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Currency</label>
                     <div class="flex gap-3">
-                        <input type="text" name="currency_symbol" value="{{ auth()->user()->currency_symbol }}"
-                            placeholder="e.g., $, UGX, €, £" required maxlength="10"
-                            class="flex-1 px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary/50 font-semibold" />
+                        <select name="currency_symbol" required
+                            class="flex-1 px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary/50 font-semibold">
+                            <option value="" disabled>Select a currency</option>
+                            <option value="$" {{ auth()->user()->currency_symbol == '$' ? 'selected' : '' }}>$ - US Dollar (USD)</option>
+                            <option value="UGX" {{ auth()->user()->currency_symbol == 'UGX' ? 'selected' : '' }}>UGX - Ugandan Shilling</option>
+                            <option value="KES" {{ auth()->user()->currency_symbol == 'KES' ? 'selected' : '' }}>KES - Kenyan Shilling</option>
+                            <option value="TZS" {{ auth()->user()->currency_symbol == 'TZS' ? 'selected' : '' }}>TZS - Tanzanian Shilling</option>
+                            <option value="€" {{ auth()->user()->currency_symbol == '€' ? 'selected' : '' }}>€ - Euro (EUR)</option>
+                            <option value="£" {{ auth()->user()->currency_symbol == '£' ? 'selected' : '' }}>£ - British Pound (GBP)</option>
+                            <option value="₹" {{ auth()->user()->currency_symbol == '₹' ? 'selected' : '' }}>₹ - Indian Rupee (INR)</option>
+                            <option value="¥" {{ auth()->user()->currency_symbol == '¥' ? 'selected' : '' }}>¥ - Japanese Yen (JPY)</option>
+                            <option value="¥" {{ auth()->user()->currency_symbol == '¥' ? 'selected' : '' }}>¥ - Chinese Yuan (CNY)</option>
+                            <option value="R" {{ auth()->user()->currency_symbol == 'R' ? 'selected' : '' }}>R - South African Rand (ZAR)</option>
+                            <option value="₦" {{ auth()->user()->currency_symbol == '₦' ? 'selected' : '' }}>₦ - Nigerian Naira (NGN)</option>
+                            <option value="GH₵" {{ auth()->user()->currency_symbol == 'GH₵' ? 'selected' : '' }}>GH₵ - Ghanaian Cedi (GHS)</option>
+                            <option value="ZK" {{ auth()->user()->currency_symbol == 'ZK' ? 'selected' : '' }}>ZK - Zambian Kwacha (ZMW)</option>
+                            <option value="RWF" {{ auth()->user()->currency_symbol == 'RWF' ? 'selected' : '' }}>RWF - Rwandan Franc</option>
+                            <option value="ETB" {{ auth()->user()->currency_symbol == 'ETB' ? 'selected' : '' }}>ETB - Ethiopian Birr</option>
+                            <option value="CA$" {{ auth()->user()->currency_symbol == 'CA$' ? 'selected' : '' }}>CA$ - Canadian Dollar (CAD)</option>
+                            <option value="A$" {{ auth()->user()->currency_symbol == 'A$' ? 'selected' : '' }}>A$ - Australian Dollar (AUD)</option>
+                            <option value="CHF" {{ auth()->user()->currency_symbol == 'CHF' ? 'selected' : '' }}>CHF - Swiss Franc</option>
+                            <option value="₽" {{ auth()->user()->currency_symbol == '₽' ? 'selected' : '' }}>₽ - Russian Ruble (RUB)</option>
+                            <option value="R$" {{ auth()->user()->currency_symbol == 'R$' ? 'selected' : '' }}>R$ - Brazilian Real (BRL)</option>
+                        </select>
                         <button type="submit"
                             class="px-6 py-3 bg-primary text-white rounded-lg font-bold hover:opacity-90 transition-all">
                             Save
                         </button>
                     </div>
-                    <p class="text-xs text-gray-500 mt-2">This symbol will be displayed throughout the app for all monetary
+                    <p class="text-xs text-gray-500 mt-2">This currency will be displayed throughout the app for all monetary
                         values.</p>
 
                     <div
@@ -59,8 +80,8 @@
                         <div class="flex gap-2">
                             <i class="ti ti-info-circle text-blue-600 dark:text-blue-400 flex-shrink-0"></i>
                             <div class="text-sm text-blue-800 dark:text-blue-300">
-                                <p class="font-bold mb-1">Common Examples:</p>
-                                <p>$ (USD), UGX (Ugandan Shilling), € (Euro), £ (Pound), ₹ (Rupee), ¥ (Yen)</p>
+                                <p class="font-bold mb-1">Popular Currencies Available</p>
+                                <p>Select from a list of commonly used currencies including USD, EUR, GBP, and African currencies like UGX, KES, NGN, and more.</p>
                             </div>
                         </div>
                     </div>

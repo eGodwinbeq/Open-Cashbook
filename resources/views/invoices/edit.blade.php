@@ -71,15 +71,22 @@
                                 onchange="calculateItemAmount(this)">
                         </div>
                         <div class="col-span-6 md:col-span-3">
-                            <label class="block text-sm font-bold mb-2 dark:text-gray-200">Unit Price *</label>
-                            <input type="number" name="items[{{ $index }}][unit_price]" value="{{ $item->unit_price }}" min="0" step="0.01" required
+                            <label class="block text-sm font-bold mb-2 dark:text-gray-200">
+                                Unit Price
+                                <span class="text-primary ml-1">({{ auth()->user()->currency_symbol }})</span>
+                                *
+                            </label>
+                            <input type="number" name="items[{{ $index }}][unit_price]" value="{{ $item->unit_price }}" min="0" step="0.01" placeholder="0.00" required
                                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black"
                                 onchange="calculateItemAmount(this)">
                         </div>
                         <div class="col-span-10 md:col-span-2 flex items-end">
                             <div class="w-full">
-                                <label class="block text-sm font-bold mb-2 dark:text-gray-200">Amount</label>
-                                <input type="text" readonly value="${{ number_format($item->amount, 2) }}"
+                                <label class="block text-sm font-bold mb-2 dark:text-gray-200">
+                                    Amount
+                                    <span class="text-primary ml-1">({{ auth()->user()->currency_symbol }})</span>
+                                </label>
+                                <input type="text" readonly value="{{ number_format($item->amount, 2) }}"
                                     class="w-full px-4 py-2 bg-gray-100 dark:bg-white border border-gray-300 dark:border-gray-300 rounded-lg dark:text-black item-amount">
                             </div>
                         </div>
@@ -228,7 +235,7 @@ function calculateItemAmount(input) {
     const quantity = parseFloat(row.querySelector('input[name*="[quantity]"]').value) || 0;
     const unitPrice = parseFloat(row.querySelector('input[name*="[unit_price]"]').value) || 0;
     const amount = quantity * unitPrice;
-    row.querySelector('.item-amount').value = '$' + amount.toFixed(2);
+    row.querySelector('.item-amount').value = amount.toFixed(2);
     calculateTotals();
 }
 function calculateTotals() {
