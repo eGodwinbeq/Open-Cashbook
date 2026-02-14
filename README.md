@@ -48,3 +48,16 @@ npm run dev
 - [Mobile UX Improvements](MOBILE_UX_IMPROVEMENTS.md)
 - [Tailwind v4 Upgrade Guide](TAILWIND_V4_UPGRADE.md)
 - [Testing Checklist](TESTING_CHECKLIST.md)
+- **[Production Deployment Guide](PRODUCTION_DEPLOYMENT.md)** ⭐
+- **[Fix 403 Errors (Quick Guide)](FIX_403_ERRORS.md)** ⭐
+
+## Production Issues?
+
+If you're experiencing 403 Forbidden errors in production, see:
+- **[Quick Fix Guide](FIX_403_ERRORS.md)** - Fix common CSRF/session issues
+- **[Production Deployment Guide](PRODUCTION_DEPLOYMENT.md)** - Complete deployment checklist
+
+Run the diagnostic tool:
+```bash
+php diagnostics.php
+```
