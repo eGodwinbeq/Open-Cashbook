@@ -30,6 +30,9 @@ class Invoice extends Model
     public function receipts(): HasMany { return $this->hasMany(Receipt::class); }
     public function calculateTotals(): void
     {
+        // Refresh items to ensure we have latest data
+        $this->load('items');
+
         $this->subtotal = $this->items->sum('amount');
         $this->tax_amount = ($this->subtotal * $this->tax_rate) / 100;
         $this->total_amount = $this->subtotal + $this->tax_amount - $this->discount_amount;

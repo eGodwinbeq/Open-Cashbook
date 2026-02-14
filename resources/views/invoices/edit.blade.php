@@ -174,7 +174,10 @@
                             onchange="calculateTotals()">
                     </div>
                     <div>
-                        <label class="block text-sm font-bold mb-2 dark:text-gray-200">Discount ($)</label>
+                        <label class="block text-sm font-bold mb-2 dark:text-gray-200">
+                            Discount
+                            <span class="text-primary ml-1">({{ auth()->user()->currency_symbol }})</span>
+                        </label>
                         <input type="number" name="discount_amount" value="{{ old('discount_amount', $invoice->discount_amount) }}" min="0" step="0.01"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent dark:bg-white dark:text-black"
                             onchange="calculateTotals()">
@@ -201,11 +204,11 @@
             </div>
             <!-- Actions -->
             <div class="flex gap-3">
-                <button type="submit"
+                <button type="submit" id="submitBtn"
                     class="flex-1 px-6 py-3 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
-                    Create Invoice
+                    Update Invoice
                 </button>
-                <a href="{{ route('invoices.index') }}"
+                <a href="{{ route('invoices.show', $invoice) }}"
                     class="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-xl font-bold hover:opacity-90 transition-all">
                     Cancel
                 </a>
@@ -215,6 +218,35 @@
 </form>
 @push('scripts')
 <script>
+// Form validation before submit
+document.getElementById('invoiceForm').addEventListener('submit', function(e) {
+    const itemsContainer = document.getElementById('items-container');
+    const itemRows = itemsContainer.querySelectorAll('.item-row');
+
+    if (itemRows.length === 0) {
+        e.preventDefault();
+        alert('Please add at least one item to the invoice.');
+        return false;
+    }
+
+    // Check if all items have description
+    let hasEmptyDescription = false;
+    itemRows.forEach(row => {
+        const description = row.querySelector('input[name*="[description]"]').value.trim();
+        if (!description) {
+            hasEmptyDescription = true;
+        }
+    });
+
+    if (hasEmptyDescription) {
+        e.preventDefault();
+        alert('Please fill in the description for all items.');
+        return false;
+    }
+
+    return true;
+});
+
 // Contact auto-fill
 document.getElementById('contactSelect').addEventListener('change', function() {
     const selected = this.options[this.selectedIndex];
