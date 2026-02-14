@@ -174,6 +174,42 @@ class Invoice extends Model
                 $invoice->generateExpectedRevenue();
             }
         });
+
+        // Cascade soft delete to related models
+        static::deleting(function ($invoice) {
+            // Soft delete all invoice items
+            $invoice->items()->delete();
+
+            // Soft delete all invoice payments (and their related transactions)
+            foreach ($invoice->payments as $payment) {
+                // Soft delete the associated transaction if exists
+                if ($payment->transaction_id) {
+                    Transaction::find($payment->transaction_id)?->delete();
+                }
+                $payment->delete();
+            }
+
+            // Soft delete all receipts
+            $invoice->receipts()->delete();
+        });
+
+        // Restore related models when invoice is restored
+        static::restoring(function ($invoice) {
+            // Restore all invoice items
+            $invoice->items()->withTrashed()->restore();
+
+            // Restore all invoice payments and their transactions
+            foreach ($invoice->payments()->withTrashed()->get() as $payment) {
+                // Restore the associated transaction if exists
+                if ($payment->transaction_id) {
+                    Transaction::withTrashed()->find($payment->transaction_id)?->restore();
+                }
+                $payment->restore();
+            }
+
+            // Restore all receipts
+            $invoice->receipts()->withTrashed()->restore();
+        });
     }
 
     /**
