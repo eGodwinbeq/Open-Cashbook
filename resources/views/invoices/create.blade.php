@@ -201,7 +201,8 @@
             </div>
             <!-- Actions -->
             <div class="flex gap-3">
-                <button type="submit"
+
+                <button type="submit" id="submitBtn"
                     class="flex-1 px-6 py-3 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
                     Create Invoice
                 </button>
@@ -213,8 +214,37 @@
         </div>
     </div>
 </form>
-@push('scripts')
+
 <script>
+// Form validation before submit
+document.getElementById('invoiceForm').addEventListener('submit', function(e) {
+    const itemsContainer = document.getElementById('items-container');
+    const itemRows = itemsContainer.querySelectorAll('.item-row');
+
+    if (itemRows.length === 0) {
+        e.preventDefault();
+        alert('Please add at least one item to the invoice.');
+        return false;
+    }
+
+    // Check if all items have description
+    let hasEmptyDescription = false;
+    itemRows.forEach(row => {
+        const description = row.querySelector('input[name*="[description]"]').value.trim();
+        if (!description) {
+            hasEmptyDescription = true;
+        }
+    });
+
+    if (hasEmptyDescription) {
+        e.preventDefault();
+        alert('Please fill in the description for all items.');
+        return false;
+    }
+
+    return true;
+});
+
 // Contact auto-fill
 document.getElementById('contactSelect').addEventListener('change', function() {
     const selected = this.options[this.selectedIndex];

@@ -103,6 +103,7 @@ class InvoiceController extends Controller
     public function update(Request $request, Invoice $invoice)
     {
         $validated = $request->validate([
+            'contact_id' => 'nullable|exists:contacts,id',
             'chapter_id' => 'nullable|exists:chapters,id',
             'client_name' => 'required|string|max:255',
             'client_email' => 'nullable|email|max:255',
@@ -119,36 +120,50 @@ class InvoiceController extends Controller
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.unit_price' => 'required|numeric|min:0',
         ]);
-        DB::transaction(function () use ($invoice, $validated) {
-            $invoice->update([
-                'chapter_id' => $validated['chapter_id'] ?? null,
-                'client_name' => $validated['client_name'],
-                'client_email' => $validated['client_email'] ?? null,
-                'client_address' => $validated['client_address'] ?? null,
-                'client_phone' => $validated['client_phone'] ?? null,
-                'invoice_date' => $validated['invoice_date'],
-                'due_date' => $validated['due_date'],
-                'tax_rate' => $validated['tax_rate'] ?? 0,
-                'discount_amount' => $validated['discount_amount'] ?? 0,
-                'notes' => $validated['notes'] ?? null,
-                'terms' => $validated['terms'] ?? null,
-            ]);
-            $invoice->items()->delete();
-            foreach ($validated['items'] as $index => $item) {
-                $amount = $item['quantity'] * $item['unit_price'];
-                InvoiceItem::create([
-                    'invoice_id' => $invoice->id,
-                    'description' => $item['description'],
-                    'quantity' => $item['quantity'],
-                    'unit_price' => $item['unit_price'],
-                    'amount' => $amount,
-                    'sort_order' => $index,
+
+        try {
+            DB::transaction(function () use ($invoice, $validated) {
+                $invoice->update([
+                    'contact_id' => $validated['contact_id'] ?? null,
+                    'chapter_id' => $validated['chapter_id'] ?? null,
+                    'client_name' => $validated['client_name'],
+                    'client_email' => $validated['client_email'] ?? null,
+                    'client_address' => $validated['client_address'] ?? null,
+                    'client_phone' => $validated['client_phone'] ?? null,
+                    'invoice_date' => $validated['invoice_date'],
+                    'due_date' => $validated['due_date'],
+                    'tax_rate' => $validated['tax_rate'] ?? 0,
+                    'discount_amount' => $validated['discount_amount'] ?? 0,
+                    'notes' => $validated['notes'] ?? null,
+                    'terms' => $validated['terms'] ?? null,
                 ]);
-            }
-            $invoice->calculateTotals();
-        });
-        return redirect()->route('invoices.show', $invoice)->with('success', 'Invoice updated successfully!');
+
+                $invoice->items()->delete();
+
+                foreach ($validated['items'] as $index => $item) {
+                    $amount = $item['quantity'] * $item['unit_price'];
+                    InvoiceItem::create([
+                        'invoice_id' => $invoice->id,
+                        'description' => $item['description'],
+                        'quantity' => $item['quantity'],
+                        'unit_price' => $item['unit_price'],
+                        'amount' => $amount,
+                        'sort_order' => $index,
+                    ]);
+                }
+
+                $invoice->calculateTotals();
+            });
+
+            return redirect()->route('invoices.show', $invoice)->with('success', 'Invoice updated successfully!');
+        } catch (\Exception $e) {
+            \Log::error('Invoice update failed: ' . $e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to update invoice. Please check all fields and try again.');
+        }
     }
+
     public function destroy(Invoice $invoice)
     {
         $invoice->delete();
