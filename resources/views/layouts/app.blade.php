@@ -176,7 +176,27 @@
                         <i class="ti ti-plus"></i>
                         <span>New Chapter</span>
                     </button>
-                    <div class="mt-8 flex items-center gap-3 px-3 py-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
+
+                    <!-- Quick Links Grid -->
+                    <div class="mt-4 grid grid-cols-3 gap-2">
+                        <a href="#"
+                            class="flex flex-col items-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-users text-lg text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Contacts</span>
+                        </a>
+                        <a href="{{ route('settings') }}"
+                            class="flex flex-col items-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-settings text-lg text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Settings</span>
+                        </a>
+                        <a href="#"
+                            class="flex flex-col items-center gap-1 px-2 py-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                            <i class="ti ti-receipt text-lg text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors"></i>
+                            <span class="text-[10px] font-bold text-gray-600 dark:text-gray-400 group-hover:text-primary transition-colors">Debtors</span>
+                        </a>
+                    </div>
+
+                    <div class="mt-6 flex items-center gap-3 px-3 py-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
                         <img class="size-10 rounded-full object-cover"
                             src="https://ui-avatars.com/api/?name={{ urlencode(auth()->user()->name) }}&color=7F9CF5&background=EBF4FF"
                             alt="User profile" />
